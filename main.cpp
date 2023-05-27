@@ -1,5 +1,6 @@
 #include <SDL.h>
 #include <iostream>
+#include "src/include/InputManager.h"
 
 int main(int argc, char *argv[]){
     SDL_Window* window = NULL;
@@ -25,25 +26,16 @@ int main(int argc, char *argv[]){
     SDL_UpdateWindowSurface(window);
     
     bool exit = false;
-    SDL_Event evt;
+
+    InputManager* input = Input();
 
     while(!exit){
+        
+        input->UpdateEvents();
 
-        if(SDL_PollEvent(&evt)){
-            switch(evt.type){
-                case SDL_QUIT:
-                    exit=true;
-                    break;
-                case SDL_KEYDOWN:
-                    if(evt.key.keysym.scancode == SDL_SCANCODE_ESCAPE){
-                        exit = true;
-                    }
-                    break;
-                default:
-                    break;
-            }
-            SDL_UpdateWindowSurface(window);
-        }
+        exit = InputManager::Instance()->Quit();
+        
+        SDL_UpdateWindowSurface(window);
     }
 
     std::cout << "AAA\n";
