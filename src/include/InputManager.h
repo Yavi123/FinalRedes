@@ -23,8 +23,4 @@ private:
 
 };
 
-InputManager* Input() {
-    return InputManager::Instance();
-}
-
 #endif

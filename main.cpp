@@ -27,7 +27,7 @@ int main(int argc, char *argv[]){
     
     bool exit = false;
 
-    InputManager* input = Input();
+    InputManager* input = InputManager::Instance();
 
     while(!exit){
         
