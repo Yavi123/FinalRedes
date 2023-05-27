@@ -38,6 +38,9 @@ int main(int argc, char *argv[]){
         SDL_UpdateWindowSurface(window);
     }
 
+    SDL_DestroyWindow(window);
+    SDL_Quit();
+
     std::cout << "AAA\n";
     return 0;
 }
