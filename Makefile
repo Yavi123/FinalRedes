@@ -1,15 +1,18 @@
 CC=g++
 CFLAGS=-g -I. -std=c++11
-DEPS = Socket.h Chat.h
-OBJ = main.cpp
+DEPS = 
+OBJ = main.o
+LIBS=-lpthread -lSDL2 -I"/usr/include/SDL2"
 
-all: test
+%.o: %.cpp $(DEPS)
+	$(CC) -g -c -o $@ $< $(CFLAGS) $(LIBS)
 
-test: $(OBJ)
-	g++ main.cpp -L./lib -lSDL2main -lSDL2
+all: main.out
 
+main.out: $(OBJ)
+	g++ -o $@ $^ $(CFLAGS) $(LIBS)
 
 .PHONY: clean
 
 clean:
-	rm -f *.o test
+	rm -f *.o a.out
