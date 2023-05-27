@@ -23,4 +23,6 @@ private:
 
 };
 
+extern InputManager* Input();
+
 #endif

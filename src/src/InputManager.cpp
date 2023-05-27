@@ -58,3 +58,7 @@ bool InputManager::Quit() {
 bool InputManager::KeyPressed(SDL_Scancode key) {
     return _inputs[key];
 }
+
+InputManager* Input(){
+    return InputManager::Instance();
+}
