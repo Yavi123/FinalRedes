@@ -27,12 +27,7 @@ public:
         SetState<T>(std::forward(args));
     }
 
-    void Update(float dT) {
-        if (current) {
-            current->Update(dT);
-            current->Render();
-        }
-    }
+    void Update(float dT);
 
 private:
     State* current;

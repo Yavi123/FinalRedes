@@ -1,4 +1,4 @@
-#include "../include/InputManager.h"
+#include "src/include/InputManager.h"
 #include <SDL_events.h>
 
 InputManager* InputManager::_instance = nullptr;
