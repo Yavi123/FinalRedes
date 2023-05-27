@@ -1,6 +1,8 @@
 #include "src/include/SDL_Utils.h"
 #include <iostream>
 
+SDL_Utils* SDL_Utils::_instance = nullptr;
+
 Texture::Texture(SDL_Texture* texture, u_int32_t w, u_int32_t h) {
     _tex = texture;
     width = w;
@@ -8,7 +10,7 @@ Texture::Texture(SDL_Texture* texture, u_int32_t w, u_int32_t h) {
 }
 
 Texture::~Texture() {
-    delete _tex;
+    SDL_DestroyTexture(_tex);
 }
 
 SDL_Utils::SDL_Utils() {
@@ -35,7 +37,10 @@ void SDL_Utils::Create() {
         SDL_Quit();
     }
 
-    _renderer = SDL_GetRenderer(_window);
+    _renderer = SDL_CreateRenderer(_window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+
+    if (_renderer == nullptr)
+        std::cout<< "Error creando el renderer\n";
 
     SDL_Surface* windowSurface = SDL_GetWindowSurface(_window);
     int x,y;
@@ -43,11 +48,13 @@ void SDL_Utils::Create() {
     SDL_Rect rect = {0, 0, x, y};
     SDL_FillRect(windowSurface, &rect, SDL_MapRGB(windowSurface->format, 255, 255, 255));
     SDL_UpdateWindowSurface(_window);
+
+    IMG_Init(IMG_INIT_JPG | IMG_INIT_PNG | IMG_INIT_TIF | IMG_INIT_WEBP);
 }
 
 void SDL_Utils::Init() {
 
-    if (!_instance) {
+    if (_instance == nullptr) {
         _instance = new SDL_Utils();
         _instance->Create();
     }
@@ -72,7 +79,7 @@ SDL_Renderer* SDL_Utils::Renderer() {
     return _renderer;
 }
 Texture* SDL_Utils::CreateOrGetImage(std::string file) {
-    if (_images.at(file)._tex != nullptr)
+    if (_images.find(file) != _images.end())
         return &_images.at(file);
 
     else {
@@ -89,4 +96,5 @@ Texture* SDL_Utils::CreateOrGetImage(std::string file) {
 
         SDL_FreeSurface(surface);
     }
+    return &_images.at(file);
 }

@@ -21,7 +21,13 @@ int main(int argc, char *argv[]) {
         input->UpdateEvents();
         exit = InputManager::Instance()->Quit();
 
+        SDL_SetRenderDrawColor(SDL_Utils::Instance()->Renderer(), 200, 200, 200, 200);
+        SDL_RenderClear(SDL_Utils::Instance()->Renderer());
+
         states.Update(0.01f);
+
+        SDL_RenderPresent(SDL_Utils::Instance()->Renderer());
+
     }
 
     SDL_Utils::Clear();

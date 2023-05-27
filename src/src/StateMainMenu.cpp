@@ -5,7 +5,7 @@
 MainMenu::MainMenu() {
 	sdl = nullptr;
 	img = nullptr;
-	dest = {30, 30, 600, 400};
+	dest = {0, 0, 600, 400};
 }
 
 MainMenu::~MainMenu() {
@@ -22,6 +22,6 @@ void MainMenu::Update(float deltaTime) {
 }
 
 void MainMenu::Render() {
-	SDL_Rect src = SDL_Rect({0, 0, img->width, img->height});
+	SDL_Rect src = {0, 0, 1000, 1000};
 	SDL_RenderCopy(sdl->Renderer(), img->_tex, &src, &dest);
 }

@@ -6,5 +6,4 @@ void StateMachine::Update(float dT) {
         current->Update(dT);
         current->Render();
     }
-    SDL_UpdateWindowSurface(SDL_Utils::Instance()->Window());
 }
