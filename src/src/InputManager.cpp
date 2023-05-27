@@ -1,4 +1,4 @@
-#include "../include/InputManager.h"
+#include "src/include/InputManager.h"
 #include <SDL_events.h>
 
 InputManager* InputManager::_instance = nullptr;
@@ -57,4 +57,8 @@ bool InputManager::Quit() {
 
 bool InputManager::KeyPressed(SDL_Scancode key) {
     return _inputs[key];
+}
+
+InputManager* Input(){
+    return InputManager::Instance();
 }
