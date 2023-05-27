@@ -8,9 +8,9 @@ LIBS=-lSDL2 -I/usr/include/SDL2
 %.o: %.cpp
 	$(CC) -g -c -o $@ $< $(CFLAGS) $(LIBS)
 
-all: main.out
+all: main
 
-main.out: $(OBJ)
+main: $(OBJ)
 	g++ -o $@ $^ $(CFLAGS) $(LIBS)
 
 .PHONY: clean
