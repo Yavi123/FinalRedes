@@ -15,19 +15,24 @@ Texture::~Texture() {
 
 SDL_Utils::SDL_Utils() {
     _window = nullptr;
-    _renderer = nullptr;
+    _renderer = NULL;
     _images = std::unordered_map<std::string, Texture>();
 }
 
 SDL_Utils::~SDL_Utils() {
+	SDL_DestroyRenderer(_renderer);
     SDL_DestroyWindow(_window);
     SDL_Quit();
 }
 
 void SDL_Utils::Create() {
 
-    if(SDL_Init(0)!=0){
+    if(SDL_Init(SDL_INIT_EVERYTHING)!=0){
         std::cout << "Error en la inicialización de SDL: " << SDL_GetError();
+    }
+
+    if (IMG_Init(IMG_INIT_JPG | IMG_INIT_PNG | IMG_INIT_TIF | IMG_INIT_WEBP) == 0) {
+        std::cout << "Error en la inicialización de SDL_images: " << SDL_GetError();
     }
 
     _window = SDL_CreateWindow("Prueba", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 800, 600, SDL_WINDOW_SHOWN);
@@ -35,21 +40,19 @@ void SDL_Utils::Create() {
     if(_window == NULL){
         std::cout << "Error en la creación de la ventana SDL: " << SDL_GetError();
         SDL_Quit();
+        return;
     }
+
+    const char* err = SDL_GetError();
+    std::cout << err << "\n";
 
     _renderer = SDL_CreateRenderer(_window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 
-    if (_renderer == nullptr)
+    if (_renderer == NULL)
         std::cout<< "Error creando el renderer\n";
 
-    SDL_Surface* windowSurface = SDL_GetWindowSurface(_window);
-    int x,y;
-    SDL_GetWindowSize(_window, &x, &y);
-    SDL_Rect rect = {0, 0, x, y};
-    SDL_FillRect(windowSurface, &rect, SDL_MapRGB(windowSurface->format, 255, 255, 255));
-    SDL_UpdateWindowSurface(_window);
-
-    IMG_Init(IMG_INIT_JPG | IMG_INIT_PNG | IMG_INIT_TIF | IMG_INIT_WEBP);
+    const char* errRend = SDL_GetError();
+    std::cout << errRend << "\n";
 }
 
 void SDL_Utils::Init() {

@@ -3,7 +3,7 @@ CFLAGS=-g -I. -std=c++11
 
 rwildcard=$(foreach d,$(wildcard $(1:=/*)),$(call rwildcard,$d,$2) $(filter $(subst *,%,$2),$d))
 OBJ = $(patsubst %.cpp,%.o,$(call rwildcard,.,*cpp))
-LIBS=-lSDL2 -lSDL2_image -I/usr/include/SDL2
+LIBS=-I/usr/include/SDL2 -lSDL2 -lSDL2_image
 
 %.o: %.cpp
 	$(CC) -g -c -o $@ $< $(CFLAGS) $(LIBS)

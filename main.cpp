@@ -26,6 +26,11 @@ int main(int argc, char *argv[]) {
 
         states.Update(0.01f);
 
+        const char* error = SDL_GetError();
+        if (error) {
+            //std::cout << error << "\n";
+        }
+
         SDL_RenderPresent(SDL_Utils::Instance()->Renderer());
 
     }
