@@ -2,7 +2,6 @@
 #define SDL_UTILS_H
 
 #include <SDL.h>
-#include <SDL_image.h>
 #include <unordered_map>
 
 struct Texture {
