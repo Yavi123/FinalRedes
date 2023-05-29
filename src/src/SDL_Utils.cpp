@@ -16,7 +16,7 @@ Texture::~Texture() {
 SDL_Utils::SDL_Utils() {
     _window = nullptr;
     _renderer = NULL;
-    _images = std::unordered_map<std::string, Texture>();
+    _images = std::unordered_map<std::string, Texture*>();
 }
 
 SDL_Utils::~SDL_Utils() {
@@ -43,16 +43,10 @@ void SDL_Utils::Create() {
         return;
     }
 
-    const char* err = SDL_GetError();
-    std::cout << err << "\n";
-
-    _renderer = SDL_CreateRenderer(_window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+    _renderer = SDL_CreateRenderer(_window, -1, SDL_RENDERER_SOFTWARE);
 
     if (_renderer == NULL)
         std::cout<< "Error creando el renderer\n";
-
-    const char* errRend = SDL_GetError();
-    std::cout << errRend << "\n";
 }
 
 void SDL_Utils::Init() {
@@ -82,22 +76,30 @@ SDL_Renderer* SDL_Utils::Renderer() {
     return _renderer;
 }
 Texture* SDL_Utils::CreateOrGetImage(std::string file) {
-    if (_images.find(file) != _images.end())
-        return &_images.at(file);
 
+    std::cout << "Imagen solicitada: " << file << "\n";
+
+    if (_images.find(file) != _images.end()) {
+	    std::cout << "Image already loaded" << "\n";
+        return _images.at(file);
+    }
     else {
         SDL_Surface *surface = IMG_Load(file.c_str());
-        if (surface == nullptr)
-            return nullptr;
 
-        _images.insert(std::pair<std::string, Texture>(file, Texture(SDL_CreateTextureFromSurface(_renderer, surface), surface->w, surface->h)));
-        if (_images.at(file)._tex == nullptr) {
+        if (surface == nullptr) {
+            std::cout << "Couldn't load image: " + file << "\n";
+            return nullptr;
+        }
+
+        _images.emplace(file, new Texture(SDL_CreateTextureFromSurface(_renderer, surface), surface->w, surface->h));
+        
+        if (_images.at(file)->_tex == nullptr) {
             SDL_FreeSurface(surface);
-            std::cout << "Couldn't load image: " + file;
+            std::cout << "Couldn't load image: " + file << "\n";
             return nullptr;
         }
 
         SDL_FreeSurface(surface);
+        return _images.at(file);
     }
-    return &_images.at(file);
 }

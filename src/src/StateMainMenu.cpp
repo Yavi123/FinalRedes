@@ -18,6 +18,7 @@ MainMenu::~MainMenu() {
 void MainMenu::Init() {
 	sdl = SDL_Utils::Instance();
     img = sdl->CreateOrGetImage("Assets/a.png");
+	std::cout << img << "\n";
 
 	NetManager::Instance()->SetOnLogin([](const LoginMessage&login) { std::cout << login.userName << "\n";});
 }
@@ -30,8 +31,10 @@ void MainMenu::Update(float deltaTime) {
 }
 
 void MainMenu::Render() {
-	/*
 	SDL_Rect src = {0, 0, 1000, 1000};
-	SDL_RenderCopy(sdl->Renderer(), img->_tex, &src, &dest);
-	*/
+	//std::cout << img->_tex << "\n";
+	if (SDL_RenderCopy(sdl->Renderer(), img->_tex, &src, &dest) != 0) {
+		std::cout << "MainMenu::Render(): Error RenderCopy: " << SDL_GetError() << "\n";
+		SDL_ClearError();
+	}
 }

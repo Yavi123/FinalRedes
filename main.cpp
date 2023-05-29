@@ -19,6 +19,8 @@ int main(int argc, char *argv[]) {
 
     states.SetState<MainMenu>();
 
+    std::cout << "LLama a setState\n";
+
     while(!exit){
         
         input->UpdateEvents();

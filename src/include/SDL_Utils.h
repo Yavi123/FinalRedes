@@ -2,9 +2,10 @@
 #define SDL_UTILS_H
 
 #include <SDL.h>
+#include <SDL_image.h>
 #include <unordered_map>
 
-struct Texture {
+class Texture {
 public:
     Texture(SDL_Texture* texture, u_int32_t w, u_int32_t h);
     ~Texture();
@@ -34,7 +35,7 @@ private:
 
     SDL_Window* _window;
     SDL_Renderer* _renderer;
-    std::unordered_map<std::string, Texture> _images;
+    std::unordered_map<std::string, Texture*> _images;
 
 };
 

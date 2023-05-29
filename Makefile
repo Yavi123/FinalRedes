@@ -15,7 +15,7 @@ SRCS := $(shell find $(SRC_DIRS) -name '*.cpp' -or -name '*.c' -or -name '*.s')
 # Prepends BUILD_DIR and appends .o to every src file
 # As an example, ./your_dir/hello.cpp turns into ./build/./your_dir/hello.cpp.o
 OBJS := $(patsubst %.cpp.o,%.o,$(SRCS:%=$(BUILD_DIR)/%.o)) $(BUILD_DIR)/main.o
-LIBS=-I/usr/include/SDL2 -lSDL2 -lSDL2_image
+LIBS=-I/usr/include/SDL2 -lpthread -lSDL2 -lSDL2_image
 
 all: $(BUILD_DIR)/$(TARGET_EXEC)
 # The final build step.
