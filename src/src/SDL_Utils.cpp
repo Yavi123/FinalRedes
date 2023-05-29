@@ -20,6 +20,9 @@ SDL_Utils::SDL_Utils() {
 }
 
 SDL_Utils::~SDL_Utils() {
+    for (auto& tex : _images) {
+        delete tex.second;
+    }
 	SDL_DestroyRenderer(_renderer);
     SDL_DestroyWindow(_window);
     SDL_Quit();
@@ -43,7 +46,7 @@ void SDL_Utils::Create() {
         return;
     }
 
-    _renderer = SDL_CreateRenderer(_window, -1, SDL_RENDERER_SOFTWARE);
+    _renderer = SDL_CreateRenderer(_window, -1, SDL_RENDERER_PRESENTVSYNC | SDL_RENDERER_ACCELERATED);
 
     if (_renderer == NULL)
         std::cout<< "Error creando el renderer\n";

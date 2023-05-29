@@ -1,7 +1,7 @@
 #include <string.h>
 
-#include "Serializable.h"
-#include "Socket.h"
+#include "src/include/Redes/Serializable.h"
+#include "src/include/Redes/Socket.h"
 
 using namespace std;
 Socket::Socket(const char * address, const char * port):sd(-1)

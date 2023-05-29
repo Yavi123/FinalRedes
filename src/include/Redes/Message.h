@@ -25,7 +25,7 @@
  *
  */
 
-enum MessageType : u_int8_t
+enum MessageType : uint8_t
 {
     EMPTY       = 0,
     LOGIN       = 1,
@@ -44,20 +44,11 @@ public:
 
     const static u_int8_t MAX_SIZE = 255;
 
-    Message(MessageType a) : type(a){};
+    Message(MessageType a);
 
-    virtual void to_bin() override {
-        alloc_data(MESSAGE_SIZE);
-        memset(_data, 0, MESSAGE_SIZE);
-        memcpy(_data, &type, sizeof(uint8_t));
-    }
+    virtual void to_bin() override;
 
-    virtual int from_bin(char * bobj) override {
-        alloc_data(sizeof(uint8_t));
-        memcpy(static_cast<void*>(_data), bobj, sizeof(uint8_t));
-        memcpy(&type, bobj, sizeof(uint8_t));
-        return 0;
-    }
+    virtual int from_bin(char * bobj) override;
 
     MessageType type;
 };
@@ -65,36 +56,14 @@ public:
 class LoginMessage : public Message {
 
 public:
-    LoginMessage() : Message(LOGIN), userName("SinNombre"){ MESSAGE_SIZE += userName.length() + sizeof(uint8_t); };
-    LoginMessage(std::string name) : Message(LOGIN), userName(name){ MESSAGE_SIZE += userName.length() + sizeof(uint8_t); };
+    LoginMessage();
+        
+    LoginMessage(std::string name);
 
-    void to_bin() override {
-        Message::to_bin();
-        char* aux = _data;
-        aux += sizeof(uint8_t);
+    void to_bin() override;
 
-        uint8_t nameLength = userName.length();
-        memcpy(_data, &nameLength, sizeof(uint8_t));
-        aux += sizeof(uint8_t);
-
-        memcpy(_data, userName.c_str(), nameLength);
-    }
-
-    int from_bin(char * bobj) override {
-        alloc_data(MAX_SIZE);
-        memcpy(static_cast<void*>(_data), bobj, MAX_SIZE);
-        memcpy(&type, bobj, sizeof(uint8_t));
-        bobj += sizeof(uint8_t);
-
-        uint8_t nameSize = 0;
-        memcpy(&nameSize, bobj, sizeof(uint8_t));
-        bobj += sizeof(uint8_t);
-
-        char* user;
-        memcpy(user, bobj, nameSize);
-        userName = std::string(user);
-        return 0;
-    }
+    int from_bin(char * bobj) override;
 
     std::string userName;
+    size_t nameLength;
 };

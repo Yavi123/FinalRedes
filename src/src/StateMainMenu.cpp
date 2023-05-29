@@ -20,12 +20,12 @@ void MainMenu::Init() {
     img = sdl->CreateOrGetImage("Assets/a.png");
 	std::cout << img << "\n";
 
-	NetManager::Instance()->SetOnLogin([](const LoginMessage&login) { std::cout << login.userName << "\n";});
+	NetManager::Instance()->SetOnLogin([](const LoginMessage& login) { std::cout << "LOGIN de: " << login.userName << "\n";});
 }
 
 void MainMenu::Update(float deltaTime) {
 	if (InputManager::Instance()->KeyPressed(SDL_SCANCODE_1)) {
-		LoginMessage msg("pito");
+		LoginMessage msg("Xx_MiNombre_xX");
 		NetManager::Instance()->SendMessage(msg);
 	}
 }

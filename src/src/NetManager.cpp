@@ -39,7 +39,7 @@ void NetManager::InitThread() {
     netThread = std::thread([this]() { DoMessages();});
 }
 
-void NetManager::SetOnLogin(LoginCallback callback) {
+void NetManager::SetOnLogin(const LoginCallback& callback) {
     onLogin = callback;
 }
 
@@ -67,8 +67,10 @@ void NetManager::DoMessages() {
             isHost = true;
             LoginMessage login;
             login.from_bin(msg.data());
-            if (onLogin != nullptr)
+
+            if (onLogin != nullptr) {
                 onLogin(login);
+            }
         }
 
     }

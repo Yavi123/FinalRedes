@@ -17,7 +17,7 @@ public:
     static NetManager* Instance();
     static void Clear();
 
-    void SetOnLogin(LoginCallback callback);
+    void SetOnLogin(const LoginCallback& callback);
 
     void InitThread();
 
