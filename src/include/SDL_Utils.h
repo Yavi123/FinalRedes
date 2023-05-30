@@ -22,7 +22,8 @@ public:
 
     SDL_Window* Window();
     SDL_Renderer* Renderer();
-    Texture* CreateOrGetImage(std::string file);
+    Texture* CreateOrGetImage(const std::string& file);
+    void DrawRect(const SDL_Rect& rect, const SDL_Color& c);
 
 private:
 

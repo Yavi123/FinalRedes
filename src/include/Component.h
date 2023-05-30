@@ -14,7 +14,7 @@ class Component
         virtual void update(float dt) = 0;
         virtual void start() = 0;
 
-    private:
+    protected:
         GameObject* gameObject;   
 };
 #endif

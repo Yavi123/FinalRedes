@@ -14,7 +14,7 @@ public:
 
     void Init() override;
 
-    void Update(float deltaTime) override;
+    void Update(float deltaTime);
     void Render() override;
 
 private:

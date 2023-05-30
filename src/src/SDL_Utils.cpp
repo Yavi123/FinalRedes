@@ -78,7 +78,7 @@ SDL_Window* SDL_Utils::Window() {
 SDL_Renderer* SDL_Utils::Renderer() {
     return _renderer;
 }
-Texture* SDL_Utils::CreateOrGetImage(std::string file) {
+Texture* SDL_Utils::CreateOrGetImage(const std::string& file) {
 
     std::cout << "Imagen solicitada: " << file << "\n";
 
@@ -105,4 +105,9 @@ Texture* SDL_Utils::CreateOrGetImage(std::string file) {
         SDL_FreeSurface(surface);
         return _images.at(file);
     }
+}
+
+void SDL_Utils::DrawRect(const SDL_Rect& rect, const SDL_Color& c) {
+    SDL_SetRenderDrawColor(_renderer, c.r, c.g, c.b, c.a);
+    SDL_RenderFillRect(_renderer, &rect);
 }
