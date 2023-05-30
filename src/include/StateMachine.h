@@ -13,6 +13,7 @@ public:
             delete current;
         current = new T();
         current->Init(std::forward(args)...);
+        current->Start();
         return current;
     };
 

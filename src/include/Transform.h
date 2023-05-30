@@ -18,12 +18,14 @@ class Transform : public Component
         void setX(int x);
         void setY(int y);
         SDL_Point getPosition();
-        SDL_Point getVelocity();
+        float getVelocityX();
+        float getVelocityY();
         void setVelocity(SDL_Point v);
-        void setVelocity(int x, int y);
+        void setVelocity(float x, float y);
     private:
         SDL_Point position;
-        SDL_Point velocity;       
+        float velocityX;       
+        float velocityY;       
         
 };
 

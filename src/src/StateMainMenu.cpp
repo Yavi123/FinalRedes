@@ -6,9 +6,7 @@
 #include <iostream>
 
 MainMenu::MainMenu() {
-	sdl = nullptr;
-	img = nullptr;
-	dest = {0, 0, 600, 400};
+	
 }
 
 MainMenu::~MainMenu() {
@@ -16,13 +14,9 @@ MainMenu::~MainMenu() {
 }
 
 void MainMenu::Init() {
-	sdl = SDL_Utils::Instance();
-    img = sdl->CreateOrGetImage("Assets/a.png");
-	std::cout << img << "\n";
 
-	NetManager::Instance()->SetOnLogin([](const LoginMessage& login) { std::cout << "LOGIN de: " << login.userName << "\n";});
 }
-
+/*
 void MainMenu::Update(float deltaTime) {
 	if (InputManager::Instance()->KeyPressed(SDL_SCANCODE_1)) {
 		LoginMessage msg("Xx_MiNombre_xX");
@@ -38,3 +32,4 @@ void MainMenu::Render() {
 		SDL_ClearError();
 	}
 }
+*/

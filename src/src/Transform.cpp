@@ -3,19 +3,21 @@
 
 Transform::Transform() {
     position = {0,0};
-    velocity = {0,0};
+    velocityX = 0;
+    velocityY = 0;
 }
 Transform::Transform(int x, int y) {
     position = {x, y};
-    velocity = {0,0};
+    velocityX = 0;
+    velocityY = 0;
 }
 Transform::~Transform() {
 
 }
 void Transform::update(float dt) {
     //std::cout << "Transform::update()\n";
-    position.x += velocity.x * dt;
-    position.y += velocity.y * dt;
+    position.x += velocityX * dt;
+    position.y += velocityY * dt;
 }
 void Transform::start() {
     //std::cout << "Transform::start()\n";
@@ -29,13 +31,17 @@ void Transform::setY(int y) {
 SDL_Point Transform::getPosition() {
     return position;
 }
-SDL_Point Transform::getVelocity() {
-    return velocity;
+float Transform::getVelocityX() {
+    return velocityX;
+}
+float Transform::getVelocityY() {
+    return velocityY;
 }
 void Transform::setVelocity(SDL_Point v) {
-    velocity = v;
+    velocityX = v.x;
+    velocityY = v.y;
 }
-void Transform::setVelocity(int x, int y) {
-    velocity.x = x;
-    velocity.y = y;
+void Transform::setVelocity(float x, float y) {
+    velocityX = x;
+    velocityY = y;
 }

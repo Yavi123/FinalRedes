@@ -8,6 +8,7 @@
 class RenderCube: public Component
 {
 public:
+    __CMPID_DECL__(CMP_RENDERCUBE)
     RenderCube();
     ~RenderCube();
     void update(float dt) override;

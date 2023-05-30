@@ -5,6 +5,5 @@
 void StateMachine::Update(float dT) {
     if (current) {
         current->Update(dT);
-        current->Render();
     }
 }

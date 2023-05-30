@@ -14,14 +14,7 @@ public:
 
     void Init() override;
 
-    void Update(float deltaTime);
-    void Render() override;
-
 private:
-    SDL_Utils* sdl;
-    Texture* img;
-
-    SDL_Rect dest;
 };
 
 #endif

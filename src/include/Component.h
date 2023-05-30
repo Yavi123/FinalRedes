@@ -7,9 +7,9 @@ class GameObject;
 class Component
 {
     public:
-        Component();
-        virtual ~Component();
-        void setContext(GameObject* go);
+        Component() = default;
+        virtual ~Component() = default;
+        void setContext(GameObject* go) {gameObject = go;};
         void awake(){};
         virtual void update(float dt) = 0;
         virtual void start() = 0;

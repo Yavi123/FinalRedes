@@ -9,8 +9,9 @@ public:
     State();
     ~State();
     virtual void Init() = 0;
+    void Start();
     void Update(float deltaTime);
-private:
+protected:
     std::list<GameObject*> gameObjects;
 };
 

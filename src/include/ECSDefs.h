@@ -8,6 +8,7 @@ using cmpId_type = uint8_t;
 enum cmpId : cmpId_type{
     CMP_TRANSFORM,
     CMP_GRAVITY,
+    CMP_RENDERCUBE,
 
     LAST_CMP
 };

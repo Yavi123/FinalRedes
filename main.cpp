@@ -4,6 +4,7 @@
 #include "src/include/NetManager.h"
 #include "src/include/StateMachine.h"
 #include "src/include/StateMainMenu.h"
+#include "src/include/StatePlaying.h"
 
 int main(int argc, char *argv[]) {
     
@@ -17,17 +18,22 @@ int main(int argc, char *argv[]) {
 
     StateMachine states = StateMachine();
 
-    states.SetState<MainMenu>();
+    states.SetState<Playing>();
+    
+    float last = SDL_GetTicks();
 
     while(!exit){
         
+        float delta = SDL_GetTicks() - last;
+        float last = SDL_GetTicks();
+
         input->UpdateEvents();
         exit = InputManager::Instance()->Quit();
 
         SDL_SetRenderDrawColor(sdl->Renderer(), 200, 200, 200, 200);
         SDL_RenderClear(sdl->Renderer());
 
-        states.Update(0.01f);
+        states.Update(delta / 1000.f);
 
         const char* error = SDL_GetError();
         if (error != "") {
