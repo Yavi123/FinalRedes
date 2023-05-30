@@ -39,7 +39,7 @@ void NetManager::InitThread() {
     netThread = std::thread([this]() { DoMessages();});
 }
 
-void NetManager::SetOnLogin(const LoginCallback& callback) {
+void NetManager::SetOnLogin(const LoginCallback callback) {
     onLogin = callback;
 }
 

@@ -3,5 +3,4 @@
 *.obj
 *.a
 *.i
-main
-build/*
+build/main

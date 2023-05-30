@@ -66,8 +66,7 @@ int LoginMessage::from_bin(char * bobj) {
 
     std::cout << "Login::fromBin nameLength: " << nameLength << "\n";
 
-    char* user;
-    memset(user, 0, nameLength + 1);
+    char user[nameLength];
     memcpy(user, bobj, nameLength);
     userName = std::string(user);
 
