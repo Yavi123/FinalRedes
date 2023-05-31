@@ -8,6 +8,7 @@
                 "/usr/include/SDL2",
                 "${workspaceFolder}",
                 "/src/include",
+                "${workspaceFolder}",
                 "${workspaceFolder}"
             ],
             "defines": [],
