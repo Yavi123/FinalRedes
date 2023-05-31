@@ -9,7 +9,7 @@
 #include <iostream>
 #include "src/include/Collider.h"
 
-Playing::Playing() {
+Playing::Playing() : State() {
 
 }
 Playing::~Playing() {
@@ -17,10 +17,10 @@ Playing::~Playing() {
 }
 
 void Playing::Init() {
-
     GameObject* obj = new GameObject();
-    obj->addComponent<GravityComponent>();
+    obj->addComponent<PlayerController>();
     obj->addComponent<RenderCube>();
+    obj->getComponent<RenderCube>()->start();
     obj->getComponent<RenderCube>()->setColor({255, 0, 0, 255});
     obj->addComponent<Collider>();
 
@@ -32,7 +32,6 @@ void Playing::Init() {
 
     //obj->addComponent<Shooting>();
 
-
-    gameObjects.push_back(obj);
-    gameObjects.push_back(obj2);
+    AddGameObject(obj);
+    AddGameObject(obj2);
 }

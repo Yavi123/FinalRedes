@@ -3,6 +3,7 @@
 
 GameObject::GameObject() : currComponents(), _components() {
     transform = addComponent<Transform>();
+    context = nullptr;
 }
 GameObject::~GameObject(){
     for(auto it = currComponents.begin(); it != currComponents.end(); it = currComponents.erase(it)){

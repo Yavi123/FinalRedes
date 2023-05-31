@@ -10,13 +10,19 @@ public:
 
     template <typename T, typename ...Targs>
     State* SetState(Targs &&...args) {
-        if (current != nullptr)
-            delete current;
-        CollissionManager::getInstance()->reset();
-        current = new T();
-        current->Init(std::forward(args)...);
-        current->Start();
-        return current;
+        if (current == nullptr) {
+            current = new T();
+            CollissionManager::getInstance()->reset();
+            current->Init(std::forward(args)...);
+            current->Start();
+            return current;
+        } else {
+            toChangeTo = new T();
+            CollissionManager::getInstance()->reset();
+            toChangeTo->Init(std::forward(args)...);
+            toChangeTo->Start();
+            return toChangeTo;
+        }
     };
 
     void LoadSavedState() {
@@ -36,6 +42,7 @@ public:
 private:
     State* current;
     State* saved;
+    State* toChangeTo = nullptr;
 };
 
 #endif

@@ -25,8 +25,8 @@ void RenderCube::start() {
 }
 
 void RenderCube::update(float dt) {
-    rect.x = tr->getPosition().x;
-    rect.y = tr->getPosition().y;
+    rect.x = tr->getPosition().x - rect.w / 2;
+    rect.y = tr->getPosition().y - rect.h / 2;
     SDL_Utils::Instance()->DrawRect(rect, color);
 }
 

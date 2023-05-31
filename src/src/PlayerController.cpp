@@ -6,7 +6,7 @@
 
 
 PlayerController::PlayerController() {
-    speed = 50;
+    speed = 100;
 }
 PlayerController::~PlayerController() {
 
