@@ -9,12 +9,17 @@ public:
 
     template <typename T, typename ...Targs>
     State* SetState(Targs &&...args) {
-        if (current != nullptr)
-            delete current;
-        current = new T();
-        current->Init(std::forward(args)...);
-        current->Start();
-        return current;
+        if (current == nullptr) {
+            current = new T();
+            current->Init(std::forward(args)...);
+            current->Start();
+            return current;
+        } else {
+            toChangeTo = new T();
+            toChangeTo->Init(std::forward(args)...);
+            toChangeTo->Start();
+            return toChangeTo;
+        }
     };
 
     void LoadSavedState() {
@@ -34,6 +39,7 @@ public:
 private:
     State* current;
     State* saved;
+    State* toChangeTo = nullptr;
 };
 
 #endif

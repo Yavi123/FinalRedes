@@ -20,7 +20,6 @@ void GravityComponent::start() {
 }
 
 void GravityComponent::update(float dt) {
-    std::cout << "GravityComponent::update()\n";  
     float x = gameObject->getComponent<Transform>()->getVelocity().x;
     float y = gameObject->getComponent<Transform>()->getVelocity().y;
     y = y + gravity * dt;

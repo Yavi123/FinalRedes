@@ -12,6 +12,9 @@ void State::AddGameObject(GameObject* obj) {
     toAdd.push_back(obj);
     obj->context = this;
 }
+void State::DestroyGameObject(GameObject* obj) {
+    toDelete.push_back(obj);
+}
 void State::Start() {
     for (GameObject* obj : gameObjects) {
         obj->start();
@@ -25,4 +28,8 @@ void State::Update(float deltaTime) {
     for (GameObject* obj : gameObjects) {
         obj->update(deltaTime);
     }
+    for (GameObject* obj : toDelete) {
+        gameObjects.remove(obj);
+    }
+    toDelete.clear();
 }

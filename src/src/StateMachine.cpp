@@ -6,4 +6,9 @@ void StateMachine::Update(float dT) {
     if (current) {
         current->Update(dT);
     }
+    if (toChangeTo != nullptr) {
+        delete current;
+        current = toChangeTo;
+        toChangeTo = nullptr;
+    }
 }

@@ -12,9 +12,11 @@ public:
     void Start();
     void Update(float deltaTime);
     void AddGameObject(GameObject* obj);
+    void DestroyGameObject(GameObject* obj);
 protected:
     std::list<GameObject*> gameObjects;
     std::list<GameObject*> toAdd;
+    std::list<GameObject*> toDelete;
 };
 
 #endif
