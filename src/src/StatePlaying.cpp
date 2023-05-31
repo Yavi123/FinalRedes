@@ -19,6 +19,7 @@ Playing::~Playing() {
 void Playing::Init() {
     GameObject* obj = new GameObject();
     obj->addComponent<PlayerController>();
+    obj->addComponent<Shooting>();
     obj->addComponent<RenderCube>();
     obj->getComponent<RenderCube>()->start();
     obj->getComponent<RenderCube>()->setColor({255, 0, 0, 255});

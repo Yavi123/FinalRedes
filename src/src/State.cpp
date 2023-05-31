@@ -24,6 +24,7 @@ void State::Start() {
 void State::Update(float deltaTime) {
     for (GameObject* obj : toAdd) {
         gameObjects.push_back(obj);
+        obj->start();
     }
     toAdd.clear();
     for (GameObject* obj : gameObjects) {
