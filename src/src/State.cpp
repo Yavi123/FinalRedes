@@ -7,6 +7,12 @@ State::State() {
 State::~State() {
 
 }
+GameObject* State::AddGameObject() {
+    auto obj = new GameObject();
+    gameObjects.push_back(obj);
+    obj->context = this;
+    return obj;
+}
 void State::Start() {
     for (GameObject* obj : gameObjects) {
         obj->start();

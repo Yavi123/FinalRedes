@@ -1,7 +1,7 @@
 #ifndef INPUTMANAGER_H
 #define INPUTMANAGER_H
 
-#include <SDL_scancode.h>
+#include <SDL.h>
 #include <unordered_map>
 
 class InputManager {
@@ -13,12 +13,16 @@ public:
     void UpdateEvents();
     bool Quit();
     bool KeyPressed(SDL_Scancode key);
+    bool MouseClick();
+    const SDL_Point& MousePosition();
 
 private:
     InputManager();
     ~InputManager() = default;
     static InputManager* _instance;
     bool _quit;
+    bool _mouseDown;
+    SDL_Point _mousePosition;
     std::unordered_map<SDL_Scancode, bool> _inputs;
 
 };

@@ -20,12 +20,12 @@ int main(int argc, char *argv[]) {
 
     states.SetState<Playing>();
     
-    float last = SDL_GetTicks();
+    Uint32 last = SDL_GetTicks();
 
     while(!exit){
         
-        float delta = SDL_GetTicks() - last;
-        float last = SDL_GetTicks();
+        Uint32 delta = SDL_GetTicks() - last;
+        last = SDL_GetTicks();
 
         input->UpdateEvents();
         exit = InputManager::Instance()->Quit();

@@ -6,8 +6,10 @@
 #include "src/include/Component.h"
 #include <list>
 #include <cassert>
+#include <iostream>
 
 class Transform;
+class State;
 
 class GameObject{
     public:
@@ -50,7 +52,7 @@ class GameObject{
                 currComponents.remove(_components[cId]);
                 // destroy it
                 //
-                delete _components[cId];
+                //delete _components[cId];
 
                 // remove the pointer
                 //
@@ -66,6 +68,10 @@ class GameObject{
         }
 
         inline Transform* getTransform(){return transform;};
+
+        void SetContext(State* state) {context = state;};
+
+        State* context;
     protected:
         Component* _components[maxComponentId];
         std::list<Component*> currComponents; 

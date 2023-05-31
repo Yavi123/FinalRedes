@@ -6,7 +6,7 @@
 #include <iostream>
 
 GravityComponent::GravityComponent() {
-    gravity = .0098f;
+    gravity = 9.8f;
 }
 GravityComponent::GravityComponent(float g) {
     gravity = g;
@@ -21,8 +21,8 @@ void GravityComponent::start() {
 
 void GravityComponent::update(float dt) {
     //std::cout << "GravityComponent::update()\n";  
-    float x = gameObject->getComponent<Transform>()->getVelocityX();
-    float y = gameObject->getComponent<Transform>()->getVelocityY();
+    float x = gameObject->getComponent<Transform>()->getVelocity().x;
+    float y = gameObject->getComponent<Transform>()->getVelocity().y;
     y = y + gravity * dt;
     gameObject->getComponent<Transform>()->setVelocity(x, y);
 }

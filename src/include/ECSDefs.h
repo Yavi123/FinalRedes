@@ -10,6 +10,7 @@ enum cmpId : cmpId_type{
     CMP_GRAVITY,
     CMP_RENDERCUBE,
     CMP_PLAYERCONTROLLER,
+    CMP_SHOOTING,
 
     CMP_COLLIDER,
     LAST_CMP

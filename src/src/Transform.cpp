@@ -3,53 +3,49 @@
 
 Transform::Transform() {
     position = {0,0};
-    velocityX = 0;
-    velocityY = 0;
+    velocity = {0,0};
 }
-Transform::Transform(int x, int y) {
-    position = {x, y};
-    velocityX = 0;
-    velocityY = 0;
+Transform::Transform(float x, float y) {
+    position = {x,y};
+    velocity = {0,0};
 }
 Transform::~Transform() {
 
 }
 void Transform::update(float dt) {
     //std::cout << "Transform::update()\n";
-    position.x += velocityX * dt;
-    position.y += velocityY * dt;
+    position.x += velocity.x * dt;
+    position.y += velocity.y * dt;
 }
 void Transform::start() {
     //std::cout << "Transform::start()\n";
 }
-void Transform::setX(int x) {
-    position.x = x;
-}
-void Transform::setY(int y) {
-    position.y = y;
-}
-SDL_Point Transform::getPosition() {
-    return position;
-}
-float Transform::getVelocityX() {
-    return velocityX;
-}
-float Transform::getVelocityY() {
-    return velocityY;
-}
-void Transform::setVelocity(SDL_Point v) {
-    velocityX = v.x;
-    velocityY = v.y;
-}
-void Transform::setVelocity(float x, float y) {
-    velocityX = x;
-    velocityY = y;
-}
-void Transform::translate(float x, float y) {
-    position.x += x;
-    position.y += y;
+
+
+void Transform::setPosition(const Vector2& pos) {
+    position = pos;
 }
 void Transform::setPosition(float x, float y) {
     position.x = x;
     position.y = y;
+}
+Vector2 Transform::getPosition() {
+    return position;
+}
+
+
+void Transform::setVelocity(const Vector2& vel) {
+    velocity = vel;
+}
+void Transform::setVelocity(float x, float y) {
+    velocity.x = x;
+    velocity.y = y;
+}
+Vector2 Transform::getVelocity() {
+    return velocity;
+}
+
+void Transform::translate(float x, float y) {
+    position.x += x;
+    position.y += y;
 }

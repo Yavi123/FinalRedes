@@ -8,6 +8,7 @@ class State
 public:
     State();
     ~State();
+    GameObject* AddGameObject();
     virtual void Init() = 0;
     void Start();
     void Update(float deltaTime);

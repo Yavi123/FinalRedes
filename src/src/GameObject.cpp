@@ -1,6 +1,7 @@
 #include "src/include/GameObject.h"
 #include "src/include/Transform.h"
-GameObject::GameObject() : currComponents(){
+
+GameObject::GameObject() : currComponents() {
     transform = addComponent<Transform>();
 }
 GameObject::~GameObject(){
