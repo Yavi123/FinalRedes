@@ -3,10 +3,13 @@
 #include "src/include/RenderCube.h"
 #include "src/include/Transform.h"
 #include "src/include/Vector2.h"
+#include "src/include/CollissionManager.h"
 
 Collider::Collider() : collider({0,0,1,1}){};
 
-Collider::~Collider(){};
+Collider::~Collider(){
+    CollissionManager::getInstance()->deregisterObject(gameObject);
+};
 
 void Collider::initComponent(const SDL_Rect& coll){
     collider.w =coll.w;
@@ -21,7 +24,12 @@ void Collider::update(float dt){
     collider.y = gameObject->getTransform()->getPosition().y;
 }
 
+void Collider::onCollission(GameObject* other){
+    std::cout << "Colision\n";
+}
+
 void Collider::start(){
+    CollissionManager::getInstance()->registerObject(gameObject);
     RenderCube* render = gameObject->getComponent<RenderCube>();
     if(render!=nullptr){
         collider.h = render->getHeight();
@@ -36,8 +44,8 @@ bool Collider::isColliding(GameObject* other){
     Transform* otherTr = other->getTransform();
     SDL_Rect otherCol= other->getComponent<Collider>()->collider;
 
-    return collidesWithRotation(tr->getPosition(), (float)collider.w, (float)collider.h, tr->getRotation(),
-                                otherTr->getPosition(), (float)otherCol.w, (float)otherCol.h, otherTr->getRotation());
+    return collidesWithRotation(tr->getPosition(), (float)collider.w, (float)collider.h, 0,
+                                otherTr->getPosition(), (float)otherCol.w, (float)otherCol.h, 0);
 }
 
 

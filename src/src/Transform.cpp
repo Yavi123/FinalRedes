@@ -24,12 +24,12 @@ void Transform::start() {
 
 void Transform::setPosition(const Vector2& pos) {
     position = pos;
-    rotation = 0;
+    rotation = 0.0f;
 }
 void Transform::setPosition(float x, float y) {
     position.x = x;
     position.y = y;
-    rotation = 0;
+    rotation = 0.0f;
 }
 Vector2 Transform::getPosition() {
     return position;

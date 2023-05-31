@@ -7,6 +7,31 @@ class Vector2 {
 public:
     inline Vector2(float x, float y) : x(x), y(y) {};
     inline Vector2() : x(0), y(0) {};
+    Vector2(const Vector2 &v) :
+			x(v.getX()), y(v.getY()) {
+	};
+
+	Vector2(Vector2 &&v) :
+			x(v.getX()), y(v.getY()) {
+	}
+
+	Vector2(const Vector2 *v) :
+			x(v->getX()), y(v->getY()) {
+	}
+
+    inline Vector2& operator=(const Vector2 &v) {
+		x = v.x;
+		y = v.y;
+		return *this;
+	}
+
+	// move assignment - not really needed
+	inline Vector2& operator=(const Vector2 &&v) {
+		x = v.x;
+		y = v.y;
+		return *this;
+	}
+
 
     inline float getX() const {return x;};
     inline float getY() const {return y;};

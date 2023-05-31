@@ -5,11 +5,13 @@
 #include "src/include/StateMachine.h"
 #include "src/include/StateMainMenu.h"
 #include "src/include/StatePlaying.h"
+#include "src/include/CollissionManager.h"
 
 int main(int argc, char *argv[]) {
     
     SDL_Utils::Init();
     NetManager::Init(true, "aaaaa", "0.0.0.0", "7777");
+    CollissionManager::init();
     SDL_Utils* sdl = SDL_Utils::Instance();
     
     bool exit = false;

@@ -20,6 +20,7 @@ class Collider:public Component
         void initComponent(const SDL_Rect& coll);
         void start() override;
         void update(float dt) override;
+        void onCollission(GameObject* other) override;
         bool isColliding(GameObject* other);
         
     protected:

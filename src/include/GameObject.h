@@ -7,6 +7,7 @@
 #include <list>
 #include <cassert>
 #include <iostream>
+#include <array>
 
 class Transform;
 class State;
@@ -18,6 +19,7 @@ class GameObject{
 
         void update(float dt);
         void start();
+        void onCollission(GameObject* other);
 
         template <typename T, typename ...Ts>
         inline T* addComponent(Ts ...args){
@@ -52,7 +54,7 @@ class GameObject{
                 currComponents.remove(_components[cId]);
                 // destroy it
                 //
-                //delete _components[cId];
+                delete _components[cId];
 
                 // remove the pointer
                 //
@@ -73,7 +75,7 @@ class GameObject{
 
         State* context;
     protected:
-        Component* _components[maxComponentId];
+        std::array<Component*, maxComponentId> _components;
         std::list<Component*> currComponents; 
         Transform* transform;
 };

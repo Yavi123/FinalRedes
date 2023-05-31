@@ -4,6 +4,7 @@
 #include "State.h"
 #include "SDL_rect.h"
 
+class CollissionManager;
 class Playing : public State
 {
 public:

@@ -30,8 +30,8 @@ Vector2 Vector2::rotate(float degrees) const {
 	//rotation matrix
 	float matrix[2][2] = { { cosine, -sine }, { sine, cosine } };
 
-	float x = x;
-	float y = y;
+	float x = this->x;
+	float y = this->y;
 
 	r.x = matrix[0][0] * x + matrix[0][1] * y;
 	r.y = matrix[1][0] * x + matrix[1][1] * y;

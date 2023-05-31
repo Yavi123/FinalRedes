@@ -1,7 +1,7 @@
 #ifndef STATE_H
 #define STATE_H
 #include <list>
-
+class CollissionManager;
 class GameObject;
 class State
 {
@@ -14,6 +14,7 @@ public:
     void Update(float deltaTime);
 protected:
     std::list<GameObject*> gameObjects;
+    CollissionManager* colman;
 };
 
 #endif

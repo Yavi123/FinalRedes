@@ -2,6 +2,7 @@
 #define STATEMACHINE_H
 #include "State.h"
 #include <utility>
+#include "CollissionManager.h"
 
 class StateMachine
 {
@@ -11,6 +12,7 @@ public:
     State* SetState(Targs &&...args) {
         if (current != nullptr)
             delete current;
+        CollissionManager::getInstance()->reset();
         current = new T();
         current->Init(std::forward(args)...);
         current->Start();

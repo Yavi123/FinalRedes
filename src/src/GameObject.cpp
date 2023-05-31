@@ -1,7 +1,7 @@
 #include "src/include/GameObject.h"
 #include "src/include/Transform.h"
 
-GameObject::GameObject() : currComponents() {
+GameObject::GameObject() : currComponents(), _components() {
     transform = addComponent<Transform>();
 }
 GameObject::~GameObject(){
@@ -20,5 +20,11 @@ void GameObject::update(float dt){
 void GameObject::start(){
     for(Component* c: currComponents){
         c->start();
+    }
+}
+
+void GameObject::onCollission(GameObject* other){
+    for(Component* c: currComponents){
+        c->onCollission(other);
     }
 }
