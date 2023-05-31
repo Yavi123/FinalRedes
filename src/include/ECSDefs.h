@@ -9,6 +9,8 @@ enum cmpId : cmpId_type{
     CMP_TRANSFORM,
     CMP_GRAVITY,
     CMP_RENDERCUBE,
+    CMP_PLAYERCONTROLLER,
+
     CMP_COLLIDER,
     LAST_CMP
 };
