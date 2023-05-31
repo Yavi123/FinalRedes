@@ -26,6 +26,11 @@ void Collider::update(float dt){
 
 void Collider::onCollission(GameObject* other){
     std::cout << "Colision\n";
+	//Ejecuta colision entre los dos gameobjects
+	Vector2 inv = gameObject->getComponent<Transform>()->getVelocity()/100;
+	float x = gameObject->getComponent<Transform>()->getPosition().x - inv.x;
+	float y = gameObject->getComponent<Transform>()->getPosition().y - inv.y;
+	gameObject->getComponent<Transform>()->setPosition(x, y);
 }
 
 void Collider::start(){
