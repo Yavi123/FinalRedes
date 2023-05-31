@@ -8,12 +8,13 @@ class State
 public:
     State();
     ~State();
-    GameObject* AddGameObject();
     virtual void Init() = 0;
     void Start();
     void Update(float deltaTime);
+    void AddGameObject(GameObject* obj);
 protected:
     std::list<GameObject*> gameObjects;
+    std::list<GameObject*> toAdd;
 };
 
 #endif

@@ -13,16 +13,20 @@ Shooting::~Shooting(){};
 void Shooting::update(float dt){
     if (Input()->MouseClick()) {
         std::cout << dt << "\n";
-        auto bala = gameObject->context->AddGameObject();
+        auto bala = new GameObject();
         bala->getTransform()->setPosition(gameObject->getTransform()->getPosition());
         bala->addComponent<GravityComponent>();
         bala->addComponent<RenderCube>();
+        bala->getComponent<RenderCube>()->start();
         bala->getComponent<RenderCube>()->setColor({0, 0, 255, 255});
         Vector2 dir = {
-            bala->getTransform()->getPosition().x - Input()->MousePosition().x, 
-            bala->getTransform()->getPosition().y - Input()->MousePosition().y
+            (float)Input()->MousePosition().x - bala->getTransform()->getPosition().x, 
+            (float)Input()->MousePosition().y - bala->getTransform()->getPosition().y
             };
-        bala->getTransform()->setVelocity(dir.x / 100, dir.y / 100);
+        bala->getTransform()->setVelocity(dir.x * 3, dir.y * 3);
+
+        gameObject->context->AddGameObject(bala);
+
     }
 }
 

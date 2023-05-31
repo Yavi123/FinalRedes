@@ -7,7 +7,7 @@
 #include "src/include/Shooting.h"
 #include <iostream>
 
-Playing::Playing() {
+Playing::Playing() : State() {
 
 }
 Playing::~Playing() {
@@ -16,17 +16,16 @@ Playing::~Playing() {
 
 void Playing::Init() {
 
+    std::cout << toAdd.size() << "\n";
+
     GameObject* obj = new GameObject();
-    obj->addComponent<GravityComponent>();
+    obj->addComponent<PlayerController>();
     obj->addComponent<RenderCube>();
+    obj->getComponent<RenderCube>()->start();
     obj->getComponent<RenderCube>()->setColor({255, 0, 0, 255});
 
     obj->addComponent<Shooting>();
 
 
-    gameObjects.push_back(obj);
-
-    for(GameObject* go : gameObjects){
-        go->start();
-    }
+    AddGameObject(obj);
 }
