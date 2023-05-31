@@ -45,3 +45,7 @@ void Transform::setVelocity(float x, float y) {
     velocityX = x;
     velocityY = y;
 }
+void Transform::translate(float x, float y) {
+    position.x += x;
+    position.y += y;
+}
