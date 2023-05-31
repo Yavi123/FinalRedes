@@ -1,6 +1,8 @@
 #include "src/include/GameObject.h"
-
-GameObject::GameObject() : currComponents(){}
+#include "src/include/Transform.h"
+GameObject::GameObject() : currComponents(){
+    transform = addComponent<Transform>();
+}
 GameObject::~GameObject(){
     for(auto it = currComponents.begin(); it != currComponents.end(); it = currComponents.erase(it)){
         delete *it;

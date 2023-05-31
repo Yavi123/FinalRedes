@@ -9,7 +9,7 @@ enum cmpId : cmpId_type{
     CMP_TRANSFORM,
     CMP_GRAVITY,
     CMP_RENDERCUBE,
-
+    CMP_COLLIDER,
     LAST_CMP
 };
 
