@@ -16,16 +16,24 @@ void PlayerController::start() {
 }
 void PlayerController::update(float dt) {
     //std::cout << "PlayerController::update()\n";
+    bool input = false;
     if (InputManager::Instance()->KeyPressed(SDL_SCANCODE_W)) {
-        gameObject->getComponent<Transform>()->translate(0, -speed * dt);
+        gameObject->getComponent<Transform>()->setVelocity({gameObject->getComponent<Transform>()->getVelocity().x, -speed});
+        input = true;
     }
     if (InputManager::Instance()->KeyPressed(SDL_SCANCODE_S)) {
-        gameObject->getComponent<Transform>()->translate(0, speed * dt);
+        gameObject->getComponent<Transform>()->setVelocity({gameObject->getComponent<Transform>()->getVelocity().x, speed});
+        input = true;
     }
     if (InputManager::Instance()->KeyPressed(SDL_SCANCODE_A)) {
-        gameObject->getComponent<Transform>()->translate(-speed * dt, 0);
+        gameObject->getComponent<Transform>()->setVelocity({-speed, gameObject->getComponent<Transform>()->getVelocity().y});
+        input = true;
     }
     if (InputManager::Instance()->KeyPressed(SDL_SCANCODE_D)) {
-        gameObject->getComponent<Transform>()->translate(speed * dt, 0);
+        gameObject->getComponent<Transform>()->setVelocity({speed, gameObject->getComponent<Transform>()->getVelocity().y});
+        input = true;
+    }
+    if (!input) {
+        gameObject->getComponent<Transform>()->setVelocity({0, 0});
     }
 }
