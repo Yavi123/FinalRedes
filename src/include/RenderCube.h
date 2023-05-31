@@ -5,6 +5,8 @@
 #include "SDL_rect.h"
 #include "Component.h"
 
+class Transform;
+
 class RenderCube: public Component
 {
 public:
@@ -20,6 +22,7 @@ public:
 private:
     SDL_Rect rect;
     SDL_Color color;
+    Transform* tr;
 };
 
 #endif
