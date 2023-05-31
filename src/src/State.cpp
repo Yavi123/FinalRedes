@@ -33,6 +33,7 @@ void State::Update(float deltaTime) {
     colman->checkCollissions();
     for (GameObject* obj : toDelete) {
         gameObjects.remove(obj);
+        delete obj;
     }
     toDelete.clear();
 }

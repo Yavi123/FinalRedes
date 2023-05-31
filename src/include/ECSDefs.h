@@ -11,6 +11,8 @@ enum cmpId : cmpId_type{
     CMP_RENDERCUBE,
     CMP_PLAYERCONTROLLER,
     CMP_SHOOTING,
+    CMP_HEALTH,
+    CMP_BULLET,
 
     CMP_COLLIDER,
     LAST_CMP

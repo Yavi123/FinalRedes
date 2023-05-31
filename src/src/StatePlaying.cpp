@@ -8,6 +8,7 @@
 #include "src/include/CollissionManager.h"
 #include <iostream>
 #include "src/include/Collider.h"
+#include "src/include/Health.h"
 
 Playing::Playing() : State() {
 
@@ -24,12 +25,14 @@ void Playing::Init() {
     obj->getComponent<RenderCube>()->start();
     obj->getComponent<RenderCube>()->setColor({255, 0, 0, 255});
     obj->addComponent<Collider>();
+    obj->addComponent<Health>();
 
     GameObject* obj2 = new GameObject();
     obj2->getTransform()->setPosition(10,100);
     obj2->addComponent<RenderCube>();
     obj2->getComponent<RenderCube>()->setColor({255, 0, 0, 255});
     obj2->addComponent<Collider>();
+    obj2->addComponent<Health>();
 
     //obj->addComponent<Shooting>();
 
