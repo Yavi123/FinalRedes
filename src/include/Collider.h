@@ -5,6 +5,8 @@
 #include <vector>
 #include <SDL_rect.h>
 
+class Collider;
+
 typedef void (*OnColissionCallback)(Collider* other);
 
 class Collider:public Component
