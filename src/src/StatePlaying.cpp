@@ -14,10 +14,13 @@ Playing::~Playing() {
 void Playing::Init() {
 
     GameObject* obj = new GameObject();
-    obj->addComponent<Transform>();
     obj->addComponent<GravityComponent>();
     obj->addComponent<RenderCube>();
     obj->getComponent<RenderCube>()->setColor({255, 0, 0, 255});
 
     gameObjects.push_back(obj);
+
+    for(GameObject* go : gameObjects){
+        go->start();
+    }
 }

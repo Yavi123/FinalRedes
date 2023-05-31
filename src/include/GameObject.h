@@ -7,6 +7,8 @@
 #include <list>
 #include <cassert>
 
+class Transform;
+
 class GameObject{
     public:
         GameObject();
@@ -29,7 +31,8 @@ class GameObject{
             //
             auto c = new T();
             c->setContext(this);
-            c->awake(std::forward<Ts>(args)...);
+            c->initComponent(std::forward<Ts>(args)...);
+            c->awake();
             _components[cId] = c;
             currComponents.push_back(c);
 
@@ -61,9 +64,11 @@ class GameObject{
 		    assert(cId < maxComponentId);
 		    return static_cast<T*>(_components[cId]);
         }
-    
+
+        inline Transform* getTransform(){return transform;};
     protected:
         Component* _components[maxComponentId];
         std::list<Component*> currComponents; 
+        Transform* transform;
 };
 #endif
