@@ -49,3 +49,7 @@ void Transform::translate(float x, float y) {
     position.x += x;
     position.y += y;
 }
+void Transform::setPosition(float x, float y) {
+    position.x = x;
+    position.y = y;
+}

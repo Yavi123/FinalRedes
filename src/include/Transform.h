@@ -23,6 +23,7 @@ class Transform : public Component
         void setVelocity(SDL_Point v);
         void setVelocity(float x, float y);
         void translate(float x, float y);
+        void setPosition(float x, float y);
     private:
         SDL_Point position;
         float velocityX;       

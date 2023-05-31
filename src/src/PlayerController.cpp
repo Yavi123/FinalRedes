@@ -25,7 +25,7 @@ void PlayerController::update(float dt) {
     if (InputManager::Instance()->KeyPressed(SDL_SCANCODE_A)) {
         gameObject->getComponent<Transform>()->translate(-speed, 0);
     }
-    if (InputManager::Instance()->KeyPressed(SDL_SCANCODE_D)) {
-        gameObject->getComponent<Transform>()->translate(speed, 0);
-    }
+    // if (InputManager::Instance()->KeyPressed(SDL_SCANCODE_D)) {
+    //     gameObject->getComponent<Transform>()->translate(speed, 0);
+    // }
 }
