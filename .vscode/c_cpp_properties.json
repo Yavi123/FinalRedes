@@ -5,7 +5,10 @@
             "includePath": [
                 "${default}",
                 ".",
-                "/usr/include/SDL2"
+                "/usr/include/SDL2",
+                "${workspaceFolder}",
+                "/src/include",
+                "${workspaceFolder}"
             ],
             "defines": [],
             "compilerPath": "/usr/bin/gcc",

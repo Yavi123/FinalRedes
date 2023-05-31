@@ -1,7 +1,7 @@
 #ifndef _COMPONENT_H_
 #define _COMPONENT_H_
 
-#include "src/include/ECSDefs.h"
+#include "ECSDefs.h"
 
 class GameObject;
 class Component

@@ -3,7 +3,6 @@
 #define _GRAVITY_H_
 
 #include "src/include/Component.h"
-#include "src/include/ECSDefs.h"
 
 class GravityComponent : public Component
 {
