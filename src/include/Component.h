@@ -14,6 +14,7 @@ class Component
         virtual void awake() = 0;
         virtual void update(float dt) = 0;
         virtual void start() = 0;
+        virtual void onCollission(GameObject* other) {};
 
     protected:
         GameObject* gameObject;   

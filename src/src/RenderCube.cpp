@@ -8,6 +8,7 @@
 RenderCube::RenderCube() {
     color = {255, 255, 255, 255};
     rect = {1,1};
+    tr = nullptr;
 }
 
 RenderCube::~RenderCube() {
@@ -15,15 +16,17 @@ RenderCube::~RenderCube() {
 
 
 void RenderCube::start() {
-    rect.x = gameObject->getComponent<Transform>()->getPosition().x;
-    rect.y = gameObject->getComponent<Transform>()->getPosition().y;
+    tr = gameObject->getTransform();
+
+    rect.x = tr->getPosition().x;
+    rect.y = tr->getPosition().y;
     rect.w = 50;
     rect.h = 50;
 }
 
 void RenderCube::update(float dt) {
-    rect.x = gameObject->getComponent<Transform>()->getPosition().x;
-    rect.y = gameObject->getComponent<Transform>()->getPosition().y;
+    rect.x = tr->getPosition().x;
+    rect.y = tr->getPosition().y;
     SDL_Utils::Instance()->DrawRect(rect, color);
 }
 

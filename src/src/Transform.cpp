@@ -24,15 +24,24 @@ void Transform::start() {
 
 void Transform::setPosition(const Vector2& pos) {
     position = pos;
+    rotation = 0;
 }
 void Transform::setPosition(float x, float y) {
     position.x = x;
     position.y = y;
+    rotation = 0;
 }
 Vector2 Transform::getPosition() {
     return position;
 }
 
+
+float Transform::getRotation(){
+    return rotation;
+}
+void Transform::setRotation(float r){
+    rotation = r;
+}
 
 void Transform::setVelocity(const Vector2& vel) {
     velocity = vel;
