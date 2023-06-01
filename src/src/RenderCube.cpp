@@ -25,7 +25,7 @@ void RenderCube::start() {
 void RenderCube::update(float dt) {
     SDL_Rect src = { 0, 0, _cube->width, _cube->height };
 
-    SDL_Rect dest = { tr->getPosition().x - tr->getSize().x / 2.f, tr->getPosition().y - tr->getSize().y / 2.f,
+    SDL_Rect dest = { tr->getPosition().x , tr->getPosition().y ,
         tr->getSize().x, tr->getSize().y };
 
     if (SDL_RenderCopyEx(SDL_Utils::Instance()->Renderer(), 

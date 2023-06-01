@@ -24,6 +24,7 @@ void Playing::Init() {
     obj->addComponent<RenderCube>();
     obj->addComponent<Collider>();
     obj->addComponent<Health>();
+    obj->addComponent<GravityComponent>();
 
     GameObject* obj2 = new GameObject();
     obj2->getTransform()->setPosition(10,100);
@@ -31,8 +32,17 @@ void Playing::Init() {
     obj2->addComponent<Collider>();
     obj2->addComponent<Health>();
 
+    GameObject* suelo = new GameObject();
+    suelo->getTransform()->setPosition(50, 400);
+    suelo->getTransform()->setSize(400, 100);
+    suelo->addComponent<RenderCube>();
+    suelo->addComponent<Collider>();
+
+
+
     //obj->addComponent<Shooting>();
 
     AddGameObject(obj);
     AddGameObject(obj2);
+    AddGameObject(suelo);
 }
