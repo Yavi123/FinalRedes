@@ -11,9 +11,9 @@ class Component
         virtual ~Component() = default;
         inline void setContext(GameObject* go) {gameObject = go;};
         void initComponent() {};
-        virtual void awake() = 0;
-        virtual void update(float dt) = 0;
-        virtual void start() = 0;
+        virtual void awake(){};
+        virtual void update(float dt){};
+        virtual void start(){};
         virtual void onCollission(GameObject* other) {};
 
     protected:
