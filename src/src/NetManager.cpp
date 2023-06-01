@@ -59,9 +59,8 @@ void NetManager::DoMessages() {
         // - MESSAGE: Reenviar el mensaje a todos los clientes (menos el emisor)
         Message msg(EMPTY);
         Socket* client;
-        socket->recv(msg, &client);
-
-        std::cout << "Tipo de mensaje llegado: " << msg.type << "\n";
+        int ret = socket->recv(msg, &client);
+        if(ret == -1) continue;
 
         if(msg.type == LOGIN) {
             isHost = true;

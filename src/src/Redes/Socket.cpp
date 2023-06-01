@@ -2,6 +2,7 @@
 
 #include "src/include/Redes/Serializable.h"
 #include "src/include/Redes/Socket.h"
+#include "src/include/Redes/Message.h"
 
 using namespace std;
 Socket::Socket(const char * address, const char * port):sd(-1)
@@ -37,10 +38,9 @@ int Socket::recv(Serializable &obj, Socket ** sock)
     struct sockaddr sa;
     socklen_t sa_len = sizeof(struct sockaddr);
 
-    char buffer[MAX_MESSAGE_SIZE];
+    char buffer[Message::MAX_SIZE];
 
-    ssize_t bytes = ::recvfrom(sd, buffer, MAX_MESSAGE_SIZE, 0, &sa, &sa_len);
-
+    ssize_t bytes = ::recvfrom(sd, buffer, Message::MAX_SIZE, MSG_DONTWAIT, &sa, &sa_len);
     if ( bytes <= 0 )
     {
         return -1;
@@ -55,7 +55,7 @@ int Socket::recv(Serializable &obj, Socket ** sock)
 
     obj.from_bin(buffer);
 
-    return 0;
+    return bytes;
 }
 
 int Socket::send(Serializable& obj, const Socket& sock)
@@ -72,7 +72,7 @@ int Socket::send(Serializable& obj, const Socket& sock)
         return -1;
     }
 
-    return 0;
+    return bytes;
 }
 
 bool operator== (const Socket &s1, const Socket &s2)

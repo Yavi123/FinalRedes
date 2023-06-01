@@ -6,6 +6,7 @@
 
 #include "Serializable.h"
 #include "Socket.h"
+#include "src/include/Vector2.h"
 
 //------------------------------------------------------------------------------
 //------------------------------------------------------------------------------
@@ -66,4 +67,22 @@ public:
 
     std::string userName;
     size_t nameLength;
+};
+
+class Transform;
+
+class NewObjectMessage : public Message {
+public:
+    NewObjectMessage();
+    NewObjectMessage(Transform* tr);
+
+
+    void to_bin() override;
+    int from_bin (char* bobj) override;
+
+    //Transform* tr;
+    Vector2 position;
+    Vector2 velocity;
+    Vector2 size;
+    float rotation;
 };

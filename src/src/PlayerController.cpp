@@ -3,6 +3,8 @@
 #include "src/include/GameObject.h"
 #include "src/include/Transform.h"
 #include "src/include/InputManager.h"
+#include "src/include/NetManager.h"
+#include "src/include/Redes/Message.h"
 
 
 PlayerController::PlayerController() {
@@ -36,4 +38,8 @@ void PlayerController::update(float dt) {
     if (!input) {
         gameObject->getComponent<Transform>()->setVelocity({0, 0});
     }
+    if (InputManager::Instance()->KeyPressed(SDL_SCANCODE_1)) {
+		LoginMessage msg("Xx_MiNombre_xX");
+		NetManager::Instance()->SendMessage(msg);
+	}
 }
