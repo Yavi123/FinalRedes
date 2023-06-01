@@ -2,11 +2,20 @@
 #include "src/include/GameObject.h"
 #include "src/include/State.h"
 #include "src/include/Health.h"
+#include "src/include/Transform.h"
 
 Bullet::Bullet() {
     damage = 10;
     ignore = nullptr;
 }
+
+void Bullet::update(float dt) {
+    auto tr = gameObject->getComponent<Transform>();
+
+    tr->setRotation(-(tr->getVelocity().angle({0, 1})));
+
+}
+
 void Bullet::onCollission(GameObject* other) {
 
     auto otherHealth = other->getComponent<Health>();

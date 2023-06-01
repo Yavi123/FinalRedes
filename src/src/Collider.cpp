@@ -5,7 +5,7 @@
 #include "src/include/Vector2.h"
 #include "src/include/CollissionManager.h"
 
-Collider::Collider() : collider({0,0,1,1}){};
+Collider::Collider() : collider({0,0,1,1}), isTrigger(false) {};
 
 Collider::~Collider(){
     CollissionManager::getInstance()->deregisterObject(gameObject);
@@ -26,6 +26,7 @@ void Collider::update(float dt){
 
 void Collider::onCollission(GameObject* other){
     std::cout << "Colision\n";
+	if (isTrigger || other->getComponent<Collider>()->IsTrigger()) return;
 	//Ejecuta colision entre los dos gameobjects
 	Vector2 inv = gameObject->getComponent<Transform>()->getVelocity()/100;
 	float x = gameObject->getComponent<Transform>()->getPosition().x - inv.x;
@@ -35,13 +36,20 @@ void Collider::onCollission(GameObject* other){
 
 void Collider::start(){
     CollissionManager::getInstance()->registerObject(gameObject);
-    RenderCube* render = gameObject->getComponent<RenderCube>();
-    if(render!=nullptr){
-        collider.h = render->getHeight();
-        collider.w = render->getWidth();
+    Transform* tr = gameObject->getTransform();
+    if(tr!=nullptr){
+        collider.h = tr->getSize().y;
+        collider.w = tr->getSize().x;
     }
-    collider.x = gameObject->getTransform()->getPosition().x;
-    collider.y = gameObject->getTransform()->getPosition().y;
+    collider.x = tr->getPosition().x;
+    collider.y = tr->getPosition().y;
+}
+
+void Collider::SetAsTrigger() {
+	isTrigger = !isTrigger;
+}
+bool Collider::IsTrigger() {
+	return isTrigger;
 }
 
 bool Collider::isColliding(GameObject* other){
@@ -49,8 +57,8 @@ bool Collider::isColliding(GameObject* other){
     Transform* otherTr = other->getTransform();
     SDL_Rect otherCol= other->getComponent<Collider>()->collider;
 
-    return collidesWithRotation(tr->getPosition(), (float)collider.w, (float)collider.h, 0,
-                                otherTr->getPosition(), (float)otherCol.w, (float)otherCol.h, 0);
+    return collidesWithRotation(tr->getPosition(), (float)collider.w, (float)collider.h, tr->getRotation(),
+                                otherTr->getPosition(), (float)otherCol.w, (float)otherCol.h, otherTr->getRotation());
 }
 
 

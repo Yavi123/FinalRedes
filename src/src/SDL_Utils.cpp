@@ -9,6 +9,9 @@ Texture::Texture(SDL_Texture* texture, u_int32_t w, u_int32_t h) {
     height = h;
 }
 
+Texture::Texture() : Texture(nullptr, 0, 0) {
+}
+
 Texture::~Texture() {
     SDL_DestroyTexture(_tex);
 }

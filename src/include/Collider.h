@@ -22,6 +22,8 @@ class Collider:public Component
         void update(float dt) override;
         void onCollission(GameObject* other) override;
         bool isColliding(GameObject* other);
+        void SetAsTrigger();
+        bool IsTrigger();
         
     protected:
         // checks if two boxes o1 and o2 collides
@@ -47,7 +49,9 @@ class Collider:public Component
 	    bool PointInRectangle(const Vector2 &A, const Vector2 &B,
 			const Vector2 &C, const Vector2 &D, const Vector2 &P);
 
-        SDL_Rect collider;
+      SDL_Rect collider;
+
+      bool isTrigger;
 };
 
 #endif

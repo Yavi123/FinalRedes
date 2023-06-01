@@ -18,20 +18,21 @@ void Shooting::update(float dt){
         std::cout << dt << "\n";
         auto bala = new GameObject();
         bala->getTransform()->setPosition(gameObject->getTransform()->getPosition());
+        bala->getTransform()->setSize({15, 30});
         bala->addComponent<GravityComponent>();
         bala->addComponent<Bullet>();
         bala->getComponent<Bullet>()->SetIgnore(gameObject->getComponent<Health>());
         bala->addComponent<RenderCube>();
-        bala->getComponent<RenderCube>()->start();
-        bala->getComponent<RenderCube>()->setColor({0, 0, 255, 255});
         Vector2 dir = {
             (float)Input()->MousePosition().x - bala->getTransform()->getPosition().x, 
             (float)Input()->MousePosition().y - bala->getTransform()->getPosition().y
             };
         bala->getTransform()->setVelocity(dir.x * 3, dir.y * 3);
         bala->addComponent<Collider>();
+        bala->getComponent<Collider>()->SetAsTrigger();
 
         gameObject->context->AddGameObject(bala);
+        bala->getComponent<RenderCube>()->setColor({0, 0, 255, 255});
 
     }
 }

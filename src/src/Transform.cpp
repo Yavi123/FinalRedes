@@ -1,13 +1,13 @@
 //Transform executation
 #include "src/include/Transform.h"
 
-Transform::Transform() {
-    position = {0,0};
-    velocity = {0,0};
-}
+Transform::Transform() : Transform(0, 0) {}
+
 Transform::Transform(float x, float y) {
     position = {x,y};
     velocity = {0,0};
+    size = {50,50};
+    rotation = 0;
 }
 Transform::~Transform() {
 
@@ -24,15 +24,24 @@ void Transform::start() {
 
 void Transform::setPosition(const Vector2& pos) {
     position = pos;
-    rotation = 0.0f;
 }
 void Transform::setPosition(float x, float y) {
     position.x = x;
     position.y = y;
-    rotation = 0.0f;
 }
 Vector2 Transform::getPosition() {
     return position;
+}
+
+void Transform::setSize(const Vector2& siz) {
+    size = siz;
+}
+void Transform::setSize(float x, float y) {
+    size.x = x;
+    size.y = y;
+}
+Vector2 Transform::getSize() {
+    return size;
 }
 
 

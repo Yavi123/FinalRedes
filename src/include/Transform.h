@@ -21,6 +21,10 @@ class Transform : public Component
         void setPosition(float x, float y);
         Vector2 getPosition();
 
+        void setSize(const Vector2& siz);
+        void setSize(float x, float y);
+        Vector2 getSize();
+
         void setRotation(float r);
         float getRotation();
 
@@ -31,6 +35,7 @@ class Transform : public Component
         void translate(float x, float y);
     private:
         Vector2 position;
+        Vector2 size;
         Vector2 velocity;  
         float rotation;
         

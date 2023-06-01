@@ -8,6 +8,7 @@
 class Texture {
 public:
     Texture(SDL_Texture* texture, u_int32_t w, u_int32_t h);
+    Texture();
     ~Texture();
     SDL_Texture* _tex;
     int32_t width;
@@ -24,6 +25,11 @@ public:
     SDL_Renderer* Renderer();
     Texture* CreateOrGetImage(const std::string& file);
     void DrawRect(const SDL_Rect& rect, const SDL_Color& c);
+    
+    Uint32 ColourToUint(SDL_Color color)
+    {
+        return (Uint32)((color.r << 16) + (color.g << 8) + (color.b << 0) + (color.a << 24));
+    }
 
 private:
 

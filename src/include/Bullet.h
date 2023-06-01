@@ -11,7 +11,7 @@ public:
     __CMPID_DECL__(CMP_BULLET)
     Bullet();
     ~Bullet() = default;
-    void update(float dt) override {};
+    void update(float dt) override;
     void start() override {};
     void awake(){};
     void onCollission(GameObject* other) override;

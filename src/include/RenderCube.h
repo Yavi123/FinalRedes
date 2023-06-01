@@ -2,7 +2,7 @@
 #ifndef RENDERCUBE_H
 #define RENDERCUBE_H
 
-#include "SDL_rect.h"
+#include "SDL_Utils.h"
 #include "Component.h"
 
 class Transform;
@@ -17,11 +17,9 @@ public:
     void start() override;
     void awake(){};
     void setColor(const SDL_Color& c);
-    inline int getWidth() {return rect.w;};
-    inline int getHeight() {return rect.h;};
 private:
-    SDL_Rect rect;
     SDL_Color color;
+    Texture* _cube;
     Transform* tr;
 };
 
