@@ -24,7 +24,7 @@ public:
     SDL_Window* Window();
     SDL_Renderer* Renderer();
     Texture* CreateOrGetImage(const std::string& file);
-    void DrawRect(const SDL_Rect& rect, const SDL_Color& c);
+    void DrawRect(const SDL_Rect& rect, const SDL_Color& c, bool fill = true);
     
     Uint32 ColourToUint(SDL_Color color)
     {
