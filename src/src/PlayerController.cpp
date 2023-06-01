@@ -3,10 +3,11 @@
 #include "src/include/GameObject.h"
 #include "src/include/Transform.h"
 #include "src/include/InputManager.h"
+#include "src/include/Collider.h"
 
 
 PlayerController::PlayerController() {
-    speed = 100;
+    speed = 150;
 }
 PlayerController::~PlayerController() {
 
@@ -17,10 +18,12 @@ void PlayerController::start() {
 void PlayerController::update(float dt) {
     //std::cout << "PlayerController::update()\n";
     bool input = false;
-    // if (InputManager::Instance()->KeyPressed(SDL_SCANCODE_W)) {
-    //     gameObject->getComponent<Transform>()->setVelocity({gameObject->getComponent<Transform>()->getVelocity().x, -speed});
-    //     input = true;
-    // }
+    if (InputManager::Instance()->KeyPressed(SDL_SCANCODE_W)) {
+        if(enSuelo){
+            gameObject->getComponent<Transform>()->setVelocity({gameObject->getComponent<Transform>()->getVelocity().x, -speed*5});
+            enSuelo = false;
+        }
+    }
     // if (InputManager::Instance()->KeyPressed(SDL_SCANCODE_S)) {
     //     gameObject->getComponent<Transform>()->setVelocity({gameObject->getComponent<Transform>()->getVelocity().x, speed});
     //     input = true;
@@ -35,5 +38,12 @@ void PlayerController::update(float dt) {
     }
     if (!input) {
         gameObject->getComponent<Transform>()->setVelocity({0, gameObject->getComponent<Transform>()->getVelocity().y});
+    }
+}
+
+void PlayerController::onCollission(GameObject* other){
+    //std::cout << "PlayerController::onCollission()\n";
+    if(other->getComponent<Collider>() != nullptr){
+        enSuelo = true;
     }
 }
