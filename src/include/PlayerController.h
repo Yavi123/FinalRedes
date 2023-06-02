@@ -13,8 +13,10 @@ class PlayerController: public Component
         void update(float dt) override;
         void start() override;
         void awake(){};
+        void onCollission(GameObject* other) override;
     private:
         float speed;
+        bool enSuelo;
         
 };
 

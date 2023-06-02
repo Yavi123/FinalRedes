@@ -24,11 +24,20 @@ public:
     SDL_Window* Window();
     SDL_Renderer* Renderer();
     Texture* CreateOrGetImage(const std::string& file);
-    void DrawRect(const SDL_Rect& rect, const SDL_Color& c);
+    void DrawRect(const SDL_Rect& rect, const SDL_Color& c, bool fill = true);
     
     Uint32 ColourToUint(SDL_Color color)
     {
         return (Uint32)((color.r << 16) + (color.g << 8) + (color.b << 0) + (color.a << 24));
+    }
+    SDL_Color build_sdlcolor(Uint32 num) {
+        return
+        {
+        static_cast<Uint8>((num >> 24) & 0xff),
+        static_cast<Uint8>((num >> 16) & 0xff),
+        static_cast<Uint8>((num >> 8) & 0xff),
+        static_cast<Uint8>(num & 0xff)
+        };
     }
 
 private:

@@ -72,11 +72,15 @@ class GameObject{
         inline Transform* getTransform(){return transform;};
 
         void SetContext(State* state) {context = state;};
-
+    
+        u_int16_t id;
+        
         State* context;
     protected:
         std::array<Component*, maxComponentId> _components;
         std::list<Component*> currComponents; 
         Transform* transform;
+
+        static u_int16_t numOfGameObjects;
 };
 #endif

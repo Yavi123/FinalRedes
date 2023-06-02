@@ -17,8 +17,11 @@ void Shooting::update(float dt){
     if (Input()->MouseClick()) {
         std::cout << dt << "\n";
         auto bala = new GameObject();
-        bala->getTransform()->setPosition(gameObject->getTransform()->getPosition());
-        bala->getTransform()->setSize({15, 30});
+        bala->getTransform()->setPosition(
+            gameObject->getTransform()->getPosition() + 
+            Vector2({gameObject->getTransform()->getSize().x / 2.f - 7, gameObject->getTransform()->getSize().y / 2.f - 15})
+            );
+        bala->getTransform()->setSize({14, 30});
         bala->addComponent<GravityComponent>();
         bala->addComponent<Bullet>();
         bala->getComponent<Bullet>()->SetIgnore(gameObject->getComponent<Health>());

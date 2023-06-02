@@ -8,6 +8,7 @@
 #include "src/include/Redes/Socket.h"
 #include "src/include/Redes/Message.h"
 #include "src/include/Transform.h"
+#include "src/include/RenderCube.h"
 
 
 Message::Message(MessageType a) : type(a){};
@@ -76,74 +77,198 @@ int LoginMessage::from_bin(char * bobj) {
 }
 
 
-NewObjectMessage::NewObjectMessage() : Message(NEWOBJECT){
-    MESSAGE_SIZE = sizeof(float)*7;
+
+PositionMessage::PositionMessage() : PositionMessage(0, {0, 0}){ }
+
+PositionMessage::PositionMessage(u_int16_t gOId, const Vector2& pos): Message(POSITION) {
+    gObjectId = gOId;
+    position = pos;
 }
 
-NewObjectMessage::NewObjectMessage(Transform* tr) :  Message(NEWOBJECT){
-    velocity = tr->getVelocity();
-    position = tr->getPosition();
-    size = tr->getSize();
-    rotation = tr->getRotation();
-    MESSAGE_SIZE = sizeof(float)*7;
-};
+void PositionMessage::to_bin() {
 
-void NewObjectMessage::to_bin(){
-    alloc_data(MESSAGE_SIZE);
-    memset(_data, 0, MESSAGE_SIZE);
+    alloc_data(MAX_SIZE);
+    memset(_data, 0, MAX_SIZE);
     char* aux = _data;
+
     memcpy(aux, &type, sizeof(MessageType));
     aux += sizeof(MessageType);
 
-    std::cout << "Login::toBin type: " << type << "\n";
+    memcpy(aux, &gObjectId, sizeof(u_int16_t));
+    aux += sizeof(u_int16_t);
 
-    memcpy(aux, &position.x, sizeof(size_t));
+    memcpy(aux, &position.x, sizeof(float));
     aux += sizeof(float);
 
     memcpy(aux, &position.y, sizeof(float));
-    aux += sizeof(float);
 
-    memcpy(aux, &size.x, sizeof(float));
-    aux += sizeof(float);
-
-    memcpy(aux, &size.y, sizeof(float));
-    aux += sizeof(float);
-
-    memcpy(aux, &velocity.x, sizeof(float));
-    aux += sizeof(float);
-
-    memcpy(aux, &velocity.y, sizeof(float));
-    aux += sizeof(float);
-
-    memcpy(aux, &rotation, sizeof(float));
 }
 
-int NewObjectMessage::from_bin(char*bobj){
+int PositionMessage::from_bin(char * bobj) {
+
     alloc_data(MAX_SIZE);
     memcpy(static_cast<void*>(_data), bobj, MAX_SIZE);
+
     memcpy(&type, bobj, sizeof(MessageType));
-    bobj += sizeof(uint8_t);
+    bobj += sizeof(MessageType);
+    
+    memcpy(&gObjectId, bobj, sizeof(u_int16_t));
+    bobj += sizeof(u_int16_t);
 
-    memcpy(&position.x, bobj, sizeof(float));
+    float newX = 0, newY = 0;
+    memcpy(&newX, bobj, sizeof(float));
+    bobj += sizeof(float);
+    memcpy(&newY, bobj, sizeof(float));
     bobj += sizeof(float);
 
-    memcpy(&position.y, bobj, sizeof(float));
-    bobj += sizeof(float);
+    position = {newX, newY};
+    return 0;
+}
 
-    memcpy(&size.x, bobj, sizeof(float));
-    bobj += sizeof(float);
 
-    memcpy(&size.y, bobj, sizeof(float));
-    bobj += sizeof(float);
+NewObjectMessage::NewObjectMessage(GameObject* toSend) : Message(NEWOBJECT){
+    result = toSend;
+}
 
-    memcpy(&velocity.x, bobj, sizeof(float));
-    bobj += sizeof(float);
+void NewObjectMessage::to_bin() {
+    alloc_data(MAX_SIZE);
+    memset(_data, 0, MAX_SIZE);
+    char* aux = _data;
 
-    memcpy(&velocity.y, bobj, sizeof(float));
-    bobj += sizeof(float);
+    memcpy(aux, &type, sizeof(MessageType));
+    aux += sizeof(MessageType);
 
-    memcpy(&rotation, bobj, sizeof(float));
+    memcpy(aux, &result->id, sizeof(u_int16_t));
+    aux += sizeof(u_int16_t);
+
+    float auxVal = result->getTransform()->getPosition().x;
+    memcpy(aux, &auxVal, sizeof(float));
+    aux += sizeof(float);
+
+    auxVal = result->getTransform()->getPosition().y;
+    memcpy(aux, &auxVal, sizeof(float));
+    aux += sizeof(float);
+
+    auxVal = result->getTransform()->getSize().x;
+    memcpy(aux, &auxVal, sizeof(float));
+    aux += sizeof(float);
+
+    auxVal = result->getTransform()->getSize().y;
+    memcpy(aux, &auxVal, sizeof(float));
+    aux += sizeof(float);
+
+    auxVal = result->getTransform()->getRotation();
+    memcpy(aux, &auxVal, sizeof(float));
+    aux += sizeof(float);
+
+    Uint32 col = 0x00000000;
+    if (result->getComponent<RenderCube>() != nullptr) {
+        col = SDL_Utils::Instance()->ColourToUint(result->getComponent<RenderCube>()->GetColor());
+    }
+
+    memcpy(aux, &col, sizeof(Uint32));
+    aux += sizeof(Uint32);
+}
+
+int NewObjectMessage::from_bin(char * bobj) {
+
+    result = new GameObject();
+
+    alloc_data(MAX_SIZE);
+    memcpy(static_cast<void*>(_data), bobj, MAX_SIZE);
+
+    memcpy(&type, bobj, sizeof(MessageType));
+    bobj += sizeof(MessageType);
+    
+    memcpy(&result->id, bobj, sizeof(u_int16_t));
+    bobj += sizeof(u_int16_t);
+
+    float newX = 0, newY = 0;
+    memcpy(&newX, bobj, sizeof(float));
     bobj += sizeof(float);
+    memcpy(&newY, bobj, sizeof(float));
+    bobj += sizeof(float);
+    result->getTransform()->setPosition({newX, newY});
+
+    memcpy(&newX, bobj, sizeof(float));
+    bobj += sizeof(float);
+    memcpy(&newY, bobj, sizeof(float));
+    bobj += sizeof(float);
+    result->getTransform()->setSize({newX, newY});
+
+    memcpy(&newX, bobj, sizeof(float));
+    bobj += sizeof(float);
+    result->getTransform()->setRotation(newX);
+
+    Uint32 newCol;
+    memcpy(&newCol, bobj, sizeof(Uint32));
+    bobj += sizeof(Uint32);
+    result->addComponent<RenderCube>()->setColor(SDL_Utils::Instance()->build_sdlcolor(newCol));
     return 0;
 
+}
+
+
+DestroyObjectMessage::DestroyObjectMessage(u_int16_t id) : Message(DESTROYOBJECT) {
+    idToKill = id;
+}
+
+void DestroyObjectMessage::to_bin() {
+    alloc_data(MAX_SIZE);
+    memset(_data, 0, MAX_SIZE);
+    char* aux = _data;
+
+    memcpy(aux, &type, sizeof(MessageType));
+    aux += sizeof(MessageType);
+
+    memcpy(aux, &idToKill, sizeof(u_int16_t));
+    aux += sizeof(u_int16_t);
+}
+
+int DestroyObjectMessage::from_bin(char * bobj) {
+
+    alloc_data(MAX_SIZE);
+    memcpy(static_cast<void*>(_data), bobj, MAX_SIZE);
+
+    memcpy(&type, bobj, sizeof(MessageType));
+    bobj += sizeof(MessageType);
+    
+    memcpy(&idToKill, bobj, sizeof(u_int16_t));
+    bobj += sizeof(u_int16_t);
+}
+
+
+ReduceHealthMessage::ReduceHealthMessage(u_int16_t idHit, u_int16_t newValue) : ReduceHealthMessage() {
+    idToCheck = idHit;
+    newHealth = newValue;
+}
+
+void ReduceHealthMessage::to_bin() {
+    alloc_data(MAX_SIZE);
+    memset(_data, 0, MAX_SIZE);
+    char* aux = _data;
+
+    memcpy(aux, &type, sizeof(MessageType));
+    aux += sizeof(MessageType);
+
+    memcpy(aux, &idToCheck, sizeof(u_int16_t));
+    aux += sizeof(u_int16_t);
+
+    memcpy(aux, &newHealth, sizeof(u_int16_t));
+    aux += sizeof(u_int16_t);
+}
+
+int ReduceHealthMessage::from_bin(char * bobj) {
+
+    alloc_data(MAX_SIZE);
+    memcpy(static_cast<void*>(_data), bobj, MAX_SIZE);
+
+    memcpy(&type, bobj, sizeof(MessageType));
+    bobj += sizeof(MessageType);
+    
+    memcpy(&idToCheck, bobj, sizeof(u_int16_t));
+    bobj += sizeof(u_int16_t);
+    
+    memcpy(&newHealth, bobj, sizeof(u_int16_t));
+    bobj += sizeof(u_int16_t);
 }

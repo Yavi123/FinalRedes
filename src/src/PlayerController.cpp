@@ -5,10 +5,11 @@
 #include "src/include/InputManager.h"
 #include "src/include/NetManager.h"
 #include "src/include/Redes/Message.h"
+#include "src/include/Collider.h"
 
 
 PlayerController::PlayerController() {
-    speed = 100;
+    speed = 150;
 }
 PlayerController::~PlayerController() {
 
@@ -20,13 +21,15 @@ void PlayerController::update(float dt) {
     //std::cout << "PlayerController::update()\n";
     bool input = false;
     if (InputManager::Instance()->KeyPressed(SDL_SCANCODE_W)) {
-        gameObject->getComponent<Transform>()->setVelocity({gameObject->getComponent<Transform>()->getVelocity().x, -speed});
-        input = true;
+        if(enSuelo){
+            gameObject->getComponent<Transform>()->setVelocity({gameObject->getComponent<Transform>()->getVelocity().x, -speed*5});
+            enSuelo = false;
+        }
     }
-    if (InputManager::Instance()->KeyPressed(SDL_SCANCODE_S)) {
-        gameObject->getComponent<Transform>()->setVelocity({gameObject->getComponent<Transform>()->getVelocity().x, speed});
-        input = true;
-    }
+    // if (InputManager::Instance()->KeyPressed(SDL_SCANCODE_S)) {
+    //     gameObject->getComponent<Transform>()->setVelocity({gameObject->getComponent<Transform>()->getVelocity().x, speed});
+    //     input = true;
+    // }
     if (InputManager::Instance()->KeyPressed(SDL_SCANCODE_A)) {
         gameObject->getComponent<Transform>()->setVelocity({-speed, gameObject->getComponent<Transform>()->getVelocity().y});
         input = true;
@@ -36,7 +39,14 @@ void PlayerController::update(float dt) {
         input = true;
     }
     if (!input) {
-        gameObject->getComponent<Transform>()->setVelocity({0, 0});
+        gameObject->getComponent<Transform>()->setVelocity({0, gameObject->getComponent<Transform>()->getVelocity().y});
+    }
+}
+
+void PlayerController::onCollission(GameObject* other){
+    //std::cout << "PlayerController::onCollission()\n";
+    if(other->getComponent<Collider>() != nullptr){
+        enSuelo = true;
     }
     if (InputManager::Instance()->KeyPressed(SDL_SCANCODE_1)) {
 		LoginMessage msg("Xx_MiNombre_xX");

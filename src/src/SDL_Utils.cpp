@@ -110,7 +110,10 @@ Texture* SDL_Utils::CreateOrGetImage(const std::string& file) {
     }
 }
 
-void SDL_Utils::DrawRect(const SDL_Rect& rect, const SDL_Color& c) {
+void SDL_Utils::DrawRect(const SDL_Rect& rect, const SDL_Color& c, bool fill) {
     SDL_SetRenderDrawColor(_renderer, c.r, c.g, c.b, c.a);
-    SDL_RenderFillRect(_renderer, &rect);
+    if (fill)
+        SDL_RenderFillRect(_renderer, &rect);
+    else
+        SDL_RenderDrawRect(_renderer, &rect);
 }

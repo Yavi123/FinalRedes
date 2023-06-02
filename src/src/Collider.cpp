@@ -4,6 +4,7 @@
 #include "src/include/Transform.h"
 #include "src/include/Vector2.h"
 #include "src/include/CollissionManager.h"
+#include "src/include/SDL_Utils.h"
 
 Collider::Collider() : collider({0,0,1,1}), isTrigger(false) {};
 
@@ -19,9 +20,11 @@ void Collider::initComponent(const SDL_Rect& coll){
 }
 
 void Collider::update(float dt){
-    //TODO
-    collider.x = gameObject->getTransform()->getPosition().x;
-    collider.y = gameObject->getTransform()->getPosition().y;
+    Transform* tr = gameObject->getTransform();
+	collider.x = tr->getPosition().x;
+	collider.y = tr->getPosition().y;
+	collider.w = tr->getSize().x;
+	collider.h = tr->getSize().y;
 }
 
 void Collider::onCollission(GameObject* other){
@@ -32,15 +35,14 @@ void Collider::onCollission(GameObject* other){
 	float x = gameObject->getComponent<Transform>()->getPosition().x - inv.x;
 	float y = gameObject->getComponent<Transform>()->getPosition().y - inv.y;
 	gameObject->getComponent<Transform>()->setPosition(x, y);
+	gameObject->getComponent<Transform>()->setVelocity({ 0,0 });
 }
 
 void Collider::start(){
     CollissionManager::getInstance()->registerObject(gameObject);
     Transform* tr = gameObject->getTransform();
-    if(tr!=nullptr){
-        collider.h = tr->getSize().y;
-        collider.w = tr->getSize().x;
-    }
+    collider.h = tr->getSize().y;
+    collider.w = tr->getSize().x;
     collider.x = tr->getPosition().x;
     collider.y = tr->getPosition().y;
 }
