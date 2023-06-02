@@ -9,6 +9,10 @@
 #include <iostream>
 #include "src/include/Collider.h"
 #include "src/include/Health.h"
+#include "src/include/Redes/Message.h"
+#include "src/include/StateMachine.h"
+#include "src/include/StateMainMenu.h"
+#include "src/include/NetManager.h"
 
 Playing::Playing() : State() {
 
@@ -79,5 +83,12 @@ void Playing::Init() {
 }
 
 void Playing::HandleMessage(const Message& msg) {
-
+    switch(msg.type){
+        case LOGOUT:
+            NetManager::Instance()->setAsHost();
+            stMachine->SetState<MainMenu>(); 
+            break;
+        default:
+            break;
+    }
 }
