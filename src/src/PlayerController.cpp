@@ -20,7 +20,10 @@ void PlayerController::start() {
 }
 void PlayerController::update(float dt) {
     //std::cout << "PlayerController::update()\n";
-    if(!NetManager::Instance()->isTurn() || shot) return;
+    if (!NetManager::Instance()->isTurn() || shot) {
+        gameObject->getComponent<Transform>()->setVelocity({0, gameObject->getComponent<Transform>()->getVelocity().y});
+        return;
+    }
     bool input = false;
     if (InputManager::Instance()->KeyPressed(SDL_SCANCODE_W)) {
         if(enSuelo){

@@ -42,6 +42,8 @@ int main(int argc, char *argv[]) {
     
     Uint32 last = SDL_GetTicks();
 
+    Uint32 step = 17; //Duración de un frame (60 fps)
+
     while(!exit){
         
         Uint32 delta = SDL_GetTicks() - last;
@@ -59,12 +61,15 @@ int main(int argc, char *argv[]) {
         states.Update(delta / 1000.f);
 
         const char* error = SDL_GetError();
-        if (error != "") {
-            //std::cout << error << "\n";
-            SDL_ClearError();
-        }
 
         SDL_RenderPresent(sdl->Renderer());
+
+		Uint32 frameTime = SDL_GetTicks() - last;
+
+		if (frameTime < step)
+		{
+			SDL_Delay(step - frameTime);
+		}
 
     }
 
