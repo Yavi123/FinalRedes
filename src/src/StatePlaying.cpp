@@ -10,6 +10,11 @@
 #include "src/include/Collider.h"
 #include "src/include/Health.h"
 #include "src/include/Redes/Message.h"
+<<<<<<< HEAD
+=======
+#include "src/include/StateMachine.h"
+#include "src/include/StateMainMenu.h"
+>>>>>>> 5dc12b39065cbfb4f49984f5b016abd0864a6b3f
 #include "src/include/NetManager.h"
 
 Playing::Playing() : State() {
@@ -58,8 +63,8 @@ void Playing::Init() {
     paredDer->addComponent<Collider>();
 
     GameObject* techo = new GameObject();
-    techo->getTransform()->setPosition(0, 0);
-    techo->getTransform()->setSize(800, 10);
+    techo->getTransform()->setPosition(0, -90);
+    techo->getTransform()->setSize(800, 100);
     techo->addComponent<RenderCube>();
     techo->getComponent<RenderCube>()->setColor({48, 20, 3, 255});
     techo->addComponent<Collider>();
@@ -110,6 +115,10 @@ void Playing::HandleMessage(const Message& msg) {
             obj->getComponent<Health>()->SubstractHealth(rMsg.newHealth);
         }
         break;
+        case LOGOUT:
+            NetManager::Instance()->setAsHost();
+            stMachine->SetState<MainMenu>(); 
+            break;
         default:
             break;
     }

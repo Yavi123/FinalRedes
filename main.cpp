@@ -70,6 +70,7 @@ int main(int argc, char *argv[]) {
 
     InputManager::Clear();
     SDL_Utils::Clear();
+    NetManager::Clear();
 
     std::cout << "AAA\n";
     return 0;

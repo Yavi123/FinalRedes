@@ -20,7 +20,7 @@ public:
         } else {
             toChangeTo = new T();
             CollissionManager::getInstance()->reset();
-            current->SetContext(this);
+            toChangeTo->SetContext(this);
             toChangeTo->Init(std::forward(args)...);
             toChangeTo->Start();
             return toChangeTo;
