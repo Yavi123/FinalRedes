@@ -28,7 +28,6 @@ void Collider::update(float dt){
 }
 
 void Collider::onCollission(GameObject* other){
-    std::cout << "Colision\n";
 	if (isTrigger || other->getComponent<Collider>()->IsTrigger()) return;
 	//Ejecuta colision entre los dos gameobjects
 	Vector2 inv = gameObject->getComponent<Transform>()->getVelocity()/100;

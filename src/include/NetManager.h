@@ -4,6 +4,7 @@
 #include <thread>
 #include <functional>
 #include "src/include/Redes/Socket.h"
+#include <list>
 
 class Message;
 class LoginMessage;
@@ -16,6 +17,8 @@ public:
     static void Init(bool host, const char * name, const char * s, const char * p);
     static NetManager* Instance();
     static void Clear();
+
+    //void setSock(const char* ip, const char* port);
 
     void SetOnLogin(const LoginCallback callback);
 
@@ -39,8 +42,12 @@ private:
     LoginCallback onLogin;
 
     Socket* socket;
+    Socket* client;
 
     std::thread netThread;
+
+    std::list<Message> toProcess;
+
 };
 
 #endif

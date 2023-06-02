@@ -10,7 +10,18 @@
 int main(int argc, char *argv[]) {
     
     SDL_Utils::Init();
-    NetManager::Init(true, "aaaaa", "0.0.0.0", "7777");
+    std::string s;
+    std::cout << "host o cliente?:";
+    std::cin >> s;
+    if(s == "h"){
+        std::cout << "Introduzca ip: ";
+        std::cin >> s;
+        NetManager::Init(true, "aaaaa", s.c_str(), "8080");
+    }if(s == "c"){
+        std::cout << "Introduzca su ip: ";
+        std::cin >> s;
+        NetManager::Init(false, "aaaaa", s.c_str(), "8080");
+    }
     CollissionManager::init();
     SDL_Utils* sdl = SDL_Utils::Instance();
     

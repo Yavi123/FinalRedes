@@ -18,10 +18,25 @@ void NetManager::Init(bool host, const char * name, const char * s, const char *
         _instance = new NetManager();
         _instance->name = name;
         _instance->isHost = host;
-        _instance->socket = new Socket(s, p);
-        _instance->socket->bind();
 
-        _instance->InitThread();
+        if(host){
+            _instance->socket = new Socket(s, p);
+            _instance->socket->bind();
+            _instance->client = nullptr;
+            _instance->InitThread();
+        }else{
+            _instance->socket = new Socket(s, p);
+            _instance->socket->bind();
+            std::string s;
+            std::cout << "Introduzca ip del servidor: ";
+            std::cin >> s;
+            _instance->client = new Socket(s.c_str(),"8080");
+            LoginMessage m;
+            m.nameLength = 2;
+            m.userName ="aa";
+            _instance->SendMessage(m);
+            _instance->InitThread();
+        }
     }
 }
 
@@ -66,7 +81,7 @@ void NetManager::DoMessages() {
             isHost = true;
             LoginMessage login;
             login.from_bin(msg.data());
-
+            this->client = client;
             if (onLogin != nullptr) {
                 onLogin(login);
             }
@@ -76,5 +91,6 @@ void NetManager::DoMessages() {
 }
 
 void NetManager::SendMessage(Message &messageToSend) {
-    socket->send(messageToSend, *socket);
+    if(client!=nullptr)
+    socket->send(messageToSend, *client);
 }
