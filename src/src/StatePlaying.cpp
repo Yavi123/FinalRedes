@@ -109,8 +109,10 @@ void Playing::HandleMessage(const Message& msg) {
             NewObjectMessage nMsg;
             nMsg.from_bin(msg.data());
             GameObject* obj = nMsg.result;
-            if(obj != nullptr)
+            if(obj != nullptr){
                 AddGameObject(obj);
+                obj->getComponent<RenderCube>()->setColor({255, 0, 0, 255});
+            }
         }
         break;
         case DESTROYOBJECT: {
