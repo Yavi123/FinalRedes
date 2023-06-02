@@ -10,11 +10,8 @@
 #include "src/include/Collider.h"
 #include "src/include/Health.h"
 #include "src/include/Redes/Message.h"
-<<<<<<< HEAD
-=======
 #include "src/include/StateMachine.h"
 #include "src/include/StateMainMenu.h"
->>>>>>> 5dc12b39065cbfb4f49984f5b016abd0864a6b3f
 #include "src/include/NetManager.h"
 
 Playing::Playing() : State() {
