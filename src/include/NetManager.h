@@ -32,6 +32,7 @@ public:
 
     void changeTurn();
     inline void setTurn(bool b){turn = b;};
+    void EndMatch();
 private:
 
     NetManager();

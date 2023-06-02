@@ -139,6 +139,11 @@ void Playing::HandleMessage(const Message& msg) {
             NetManager::Instance()->setTurn(true);
             controlled->getComponent<PlayerController>()->setShot(false);
             break;
+        case MATCHEND:
+            //NETMANAGER END MATCH
+            NetManager::Instance()->EndMatch();
+            stMachine->SetState<MainMenu>();
+            break;
         default:
             break;
     }
