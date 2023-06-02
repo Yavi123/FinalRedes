@@ -8,6 +8,8 @@
 #include "src/include/Bullet.h"
 #include "src/include/Health.h"
 #include "src/include/Collider.h"
+#include "src/include/Redes/Message.h"
+#include "src/include/NetManager.h"
 
 Shooting::Shooting() {};
 
@@ -36,7 +38,7 @@ void Shooting::update(float dt){
 
         gameObject->context->AddGameObject(bala);
         bala->getComponent<RenderCube>()->setColor({0, 0, 255, 255});
-
+        
     }
 }
 
