@@ -9,19 +9,24 @@
 
 int main(int argc, char *argv[]) {
     
-    SDL_Utils::Init();
     std::string s;
+    std::string nick;
     std::cout << "host o cliente?:";
     std::cin >> s;
-    if(s == "h"){
+    if(s == "h" || s == "host"){
         std::cout << "Introduzca ip: ";
         std::cin >> s;
-        NetManager::Init(true, "aaaaa", s.c_str(), "8080");
-    }if(s == "c"){
+        std::cout << "Introduzca su nickname: ";
+        std::cin >> nick;
+        NetManager::Init(true, nick.c_str(), s.c_str(), "8080");
+    }if(s == "c" || s == "cliente"){
         std::cout << "Introduzca su ip: ";
         std::cin >> s;
-        NetManager::Init(false, "aaaaa", s.c_str(), "8080");
+        std::cout << "Introduzca su nickname: ";
+        std::cin >> nick;
+        NetManager::Init(false, nick.c_str(), s.c_str(), "8080");
     }
+    SDL_Utils::Init();
     CollissionManager::init();
     SDL_Utils* sdl = SDL_Utils::Instance();
     
@@ -30,6 +35,8 @@ int main(int argc, char *argv[]) {
     InputManager* input = InputManager::Instance();
 
     StateMachine states = StateMachine();
+
+    NetManager::Instance()->SetStateMachine(&states);
 
     states.SetState<MainMenu>();
     

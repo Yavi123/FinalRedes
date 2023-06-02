@@ -19,18 +19,8 @@ void Transform::update(float dt) {
     position.x += velocity.x * dt;
     position.y += velocity.y * dt;
     if(velocity.getX() == 0 && velocity.getY() == 0) return;
-    PositionMessage a = PositionMessage(gameObject->id, position);
-    NetManager::Instance()->SendMessage(a); 
 }
 void Transform::start() {
-    //std::cout << "Transform::start()\n";
-    NetManager::Instance()->AddPositionCallback([this](const PositionMessage& msg){
-        if(msg.gObjectId == gameObject->id)
-        {
-            position = msg.position;
-            std::cout<<"Position: "<<position.getX()<<", "<<position.getY()<<std::endl;
-        }
-    });
 }
 
 

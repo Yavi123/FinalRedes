@@ -69,7 +69,6 @@ void Playing::Init() {
     plataforma->getComponent<RenderCube>()->setColor({110, 100, 100, 255});
     plataforma->addComponent<Collider>();
 
-
     AddGameObject(obj);
     AddGameObject(obj2);
     AddGameObject(suelo);
@@ -77,4 +76,8 @@ void Playing::Init() {
     AddGameObject(paredDer);
     AddGameObject(techo);
     AddGameObject(plataforma);
+}
+
+void Playing::HandleMessage(const Message& msg) {
+
 }

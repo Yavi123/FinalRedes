@@ -12,7 +12,7 @@
 #include <iostream>
 
 MainMenu::MainMenu() {
-	
+	opponent = "";
 }
 
 MainMenu::~MainMenu() {
@@ -29,19 +29,39 @@ void MainMenu::Init() {
     GameObject* obj = new GameObject();
     obj->getTransform()->setPosition(300, 250);
     obj->getTransform()->setSize(200, 200);
-    obj->addComponent<Button>()->SetOnClick([this]() { stMachine->SetState<Playing>();});
+    obj->addComponent<Button>()->SetOnClick([this]() {
+		stMachine->SetState<Playing>();
+		MatchStartMessage msg = MatchStartMessage();
+		NetManager::Instance()->SendMessage(msg);
+	});
     obj->addComponent<ImageRenderer>()->SetImage("Assets/play.png");
 	
 	AddGameObject(fondo);
 	AddGameObject(obj);
+}
 
-	NetManager::Instance()->SetOnLogin([](const LoginMessage& a) 
-	{
-		std::cout<<"Login: "<<a.userName<<"\n";
-		LoginMessage msg("Xx_MiNombre_xX");
-		NetManager::Instance()->SendMessage(msg);
-		NetManager::Instance()->SetOnLogin(nullptr);
-	});
+void MainMenu::HandleMessage(const Message& msg) {
+
+	switch (msg.type) {
+		case LOGIN: {
+			LoginMessage lMsg;
+			lMsg.from_bin(msg.data());
+			if (lMsg.userName != opponent) {
+				opponent = lMsg.userName;
+				std::cout<<"Login: " << opponent <<"\n";
+				LoginMessage msg(NetManager::Instance()->GetNick());
+				NetManager::Instance()->SendMessage(msg);
+			}
+		}
+		break;
+		case LOGOUT: {
+			std::cout << "Logout: " << opponent << "\n";
+		}
+		break;
+		default:
+			stMachine->SetState<Playing>();
+		break;
+	}
 }
 /*
 void MainMenu::Update(float deltaTime) {

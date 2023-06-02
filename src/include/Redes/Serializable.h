@@ -51,7 +51,7 @@ public:
      *  Debe inicializarse previamente via Serializable::to_bin()
      *    @return objeto serializado
      */
-    char * data()
+    char * data() const
     {
         return _data;
     }

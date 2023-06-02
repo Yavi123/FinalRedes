@@ -4,6 +4,7 @@
 class CollissionManager;
 class GameObject;
 class StateMachine;
+class Message;
 class State
 {
 public:
@@ -14,6 +15,8 @@ public:
     void Update(float deltaTime);
     void AddGameObject(GameObject* obj);
     void DestroyGameObject(GameObject* obj);
+
+    virtual void HandleMessage(const Message& msg) = 0;
 
     void SetContext(StateMachine* machine) { stMachine = machine;};
     StateMachine* GetContext() { return stMachine;};

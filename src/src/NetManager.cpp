@@ -1,5 +1,7 @@
 #include "src/include/NetManager.h"
 #include "src/include/Redes/Message.h"
+#include "src/include/StateMachine.h"
+#include "src/include/State.h"
 #include "SDL.h"
 
 NetManager* NetManager::_instance = nullptr;
@@ -8,7 +10,6 @@ NetManager::NetManager() {
     name = "name";
     isHost = false;
     socket = nullptr;
-    onLogin = nullptr;
     toProcess = std::list<Message*>();
 }
 NetManager::~NetManager() {
@@ -33,9 +34,7 @@ void NetManager::Init(bool host, const char * name, const char * s, const char *
             std::cout << "Introduzca ip del servidor: ";
             std::cin >> s;
             _instance->client = new Socket(s.c_str(),"8080");
-            LoginMessage m;
-            m.nameLength = 3;
-            m.userName ="aa";
+            LoginMessage m = LoginMessage(_instance->name);
             _instance->SendMessage(m);
            // _instance->InitThread();
         }
@@ -47,17 +46,15 @@ NetManager* NetManager::Instance() {
 }
 
 void NetManager::Clear() {
-    if (_instance)
+    if (_instance) {
+        Message a = Message(LOGOUT);
+        _instance->SendMessage(a);
         delete _instance;
+    }
     _instance = nullptr;
 }
 
 void NetManager::InitThread() {
-    netThread = std::thread([this]() { DoMessages();});
-}
-
-void NetManager::SetOnLogin(const LoginCallback callback) {
-    onLogin = callback;
 }
 
 void NetManager::DoMessages() {
@@ -84,16 +81,8 @@ void NetManager::DoMessages() {
             LoginMessage login;
             login.from_bin(msg.data());
             this->client = client;
-            if (onLogin != nullptr) {
-                onLogin(login);
-            }
         }
         else if(msg.type == POSITION) {
-            for(auto& callback : positionCallbacks) {
-                PositionMessage position;
-                position.from_bin(msg.data());
-                callback(position);
-            }
         }
     }
 }
@@ -101,10 +90,6 @@ void NetManager::DoMessages() {
 void NetManager::SendMessage(Message &messageToSend) {
     if(client!=nullptr)
     socket->send(messageToSend, *client);
-}
-
-void NetManager::AddPositionCallback(std::function<void(const PositionMessage&)> callback) {
-    positionCallbacks.push_back(callback);
 }
 
 void NetManager::receive(){
@@ -126,22 +111,7 @@ void NetManager::receive(){
 void NetManager::process(){
     for(Message* m : toProcess){
         
-        if(m->type == LOGIN) {
-            isHost = true;
-            LoginMessage login;
-            login.from_bin(m->data());
-            
-            if (onLogin != nullptr) {
-                onLogin(login);
-            }
-        }
-        else if(m->type == POSITION) {
-            for(auto& callback : positionCallbacks) {
-                PositionMessage position;
-                position.from_bin(m->data());
-                callback(position);
-            }
-        }
+        stMachine->GetCurrentState()->HandleMessage(*m);
                
     }
 

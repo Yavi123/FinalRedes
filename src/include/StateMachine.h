@@ -41,6 +41,8 @@ public:
 
     void Update(float dT);
 
+    State* GetCurrentState() {return current;};
+
 private:
     State* current;
     State* saved;

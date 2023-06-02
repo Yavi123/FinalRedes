@@ -9,8 +9,7 @@
 class Message;
 class LoginMessage;
 class PositionMessage;
-
-typedef void (*LoginCallback)(const LoginMessage&);
+class StateMachine;
 
 class NetManager {
 public:
@@ -19,9 +18,9 @@ public:
     static NetManager* Instance();
     static void Clear();
 
-    //void setSock(const char* ip, const char* port);
+    void SetStateMachine(StateMachine* m) {stMachine = m;};
 
-    void SetOnLogin(const LoginCallback callback);
+    //void setSock(const char* ip, const char* port);
 
     void InitThread();
 
@@ -33,7 +32,7 @@ public:
 
     void SendMessage(Message &messageToSend);
 
-    void AddPositionCallback(std::function<void(const PositionMessage&)> callback);
+    std::string GetNick() {return name;}
 
 private:
 
@@ -46,16 +45,13 @@ private:
 
     const char* name;
 
-    LoginCallback onLogin;
-    std::list<std::function<void(const PositionMessage&)>> positionCallbacks;
-
     Socket* socket;
     Socket* client;
 
-    std::thread netThread;
-
     std::list<Message*> toProcess;
     bool turn;
+
+    StateMachine* stMachine;
 
 };
 

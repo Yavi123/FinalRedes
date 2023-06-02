@@ -2,6 +2,7 @@
 #define MAINMENU_H
 #include "State.h"
 #include "SDL_rect.h"
+#include <string>
 
 class Texture;
 class SDL_Utils;
@@ -14,7 +15,11 @@ public:
 
     void Init() override;
 
+    void HandleMessage(const Message& msg) override;
+
 private:
+
+    std::string opponent;
 };
 
 #endif
