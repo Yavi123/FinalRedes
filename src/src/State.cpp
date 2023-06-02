@@ -14,6 +14,7 @@ void State::AddGameObject(GameObject* obj) {
     obj->context = this;
 }
 void State::DestroyGameObject(GameObject* obj) {
+    if (toDelete.back() != obj)
     toDelete.push_back(obj);
 }
 void State::Start() {

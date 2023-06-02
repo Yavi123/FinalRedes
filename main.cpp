@@ -31,7 +31,7 @@ int main(int argc, char *argv[]) {
 
     StateMachine states = StateMachine();
 
-    states.SetState<Playing>();
+    states.SetState<MainMenu>();
     
     Uint32 last = SDL_GetTicks();
 

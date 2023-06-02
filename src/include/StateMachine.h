@@ -13,12 +13,14 @@ public:
         if (current == nullptr) {
             current = new T();
             CollissionManager::getInstance()->reset();
+            current->SetContext(this);
             current->Init(std::forward(args)...);
             current->Start();
             return current;
         } else {
             toChangeTo = new T();
             CollissionManager::getInstance()->reset();
+            current->SetContext(this);
             toChangeTo->Init(std::forward(args)...);
             toChangeTo->Start();
             return toChangeTo;

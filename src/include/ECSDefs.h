@@ -14,6 +14,8 @@ enum cmpId : cmpId_type{
     CMP_HEALTH,
     CMP_BULLET,
     CMP_COLLIDER,
+    CMP_BUTTON,
+    CMP_IMAGERENDERER,
     LAST_CMP
 };
 
