@@ -1,5 +1,6 @@
 #include "src/include/NetManager.h"
 #include "src/include/Redes/Message.h"
+#include "SDL.h"
 
 NetManager* NetManager::_instance = nullptr;
 
@@ -8,6 +9,7 @@ NetManager::NetManager() {
     isHost = false;
     socket = nullptr;
     onLogin = nullptr;
+    toProcess = std::list<Message*>();
 }
 NetManager::~NetManager() {
     delete socket;
@@ -23,7 +25,7 @@ void NetManager::Init(bool host, const char * name, const char * s, const char *
             _instance->socket = new Socket(s, p);
             _instance->socket->bind();
             _instance->client = nullptr;
-            _instance->InitThread();
+            //_instance->InitThread();
         }else{
             _instance->socket = new Socket(s, p);
             _instance->socket->bind();
@@ -35,7 +37,7 @@ void NetManager::Init(bool host, const char * name, const char * s, const char *
             m.nameLength = 3;
             m.userName ="aa";
             _instance->SendMessage(m);
-            _instance->InitThread();
+           // _instance->InitThread();
         }
     }
 }
@@ -103,4 +105,49 @@ void NetManager::SendMessage(Message &messageToSend) {
 
 void NetManager::AddPositionCallback(std::function<void(const PositionMessage&)> callback) {
     positionCallbacks.push_back(callback);
+}
+
+void NetManager::receive(){
+    Uint32 tick = SDL_GetTicks();
+    while(SDL_GetTicks() - tick <= 5){
+        Message* msg = new Message(EMPTY);
+        Socket* client;
+        int ret = socket->recv(*msg, &client);
+        if(ret == -1) { 
+            delete msg;
+            continue;
+        }
+        else toProcess.push_back(msg);
+        if(msg->type == LOGIN){
+            this->client = client;
+        }
+    }
+}
+void NetManager::process(){
+    for(Message* m : toProcess){
+        
+        if(m->type == LOGIN) {
+            isHost = true;
+            LoginMessage login;
+            login.from_bin(m->data());
+            
+            if (onLogin != nullptr) {
+                onLogin(login);
+            }
+        }
+        else if(m->type == POSITION) {
+            for(auto& callback : positionCallbacks) {
+                PositionMessage position;
+                position.from_bin(m->data());
+                callback(position);
+            }
+        }
+               
+    }
+
+    for(auto it = toProcess.begin(); it!=toProcess.end(); ++it){
+        delete *it;
+    }
+
+    toProcess.clear();
 }

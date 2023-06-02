@@ -11,7 +11,14 @@
 #include "src/include/RenderCube.h"
 
 
-Message::Message(MessageType a) : type(a){};
+Message::Message(MessageType a) : type(a){
+    _data = nullptr;
+};
+Message::Message(const Message& msg){
+    alloc_data(MAX_SIZE);
+    memcpy(_data, msg._data, MAX_SIZE);
+    type = msg.type;
+}
 
 void Message::to_bin() {
     alloc_data(MAX_SIZE);
@@ -22,7 +29,7 @@ void Message::to_bin() {
 int Message::from_bin(char * bobj) {
     alloc_data(MAX_SIZE);
     memcpy(static_cast<void*>(_data), bobj, MAX_SIZE);
-    memcpy(&type, bobj, MAX_SIZE);
+    memcpy(&type, bobj, sizeof(MessageType));
     return 0;
 }
 
@@ -57,19 +64,20 @@ void LoginMessage::to_bin() {
 int LoginMessage::from_bin(char * bobj) {
 
     alloc_data(MAX_SIZE);
-    memcpy(static_cast<void*>(_data), bobj, MAX_SIZE);
-    memcpy(&type, bobj, sizeof(MessageType));
-    bobj += sizeof(uint8_t);
+    char* aux = bobj;
+    memcpy(static_cast<void*>(_data), aux, MAX_SIZE);
+    memcpy(&type, aux, sizeof(MessageType));
+    aux += sizeof(uint8_t);
 
     std::cout << "Login::fromBin type: " << type << "\n";
 
-    memcpy(&nameLength, bobj, sizeof(size_t));
-    bobj += sizeof(size_t);
+    memcpy(&nameLength, aux, sizeof(size_t));
+    aux += sizeof(size_t);
 
     std::cout << "Login::fromBin nameLength: " << nameLength << "\n";
 
     char user[nameLength];
-    memcpy(user, bobj, nameLength);
+    memcpy(user, aux, nameLength);
     userName = std::string(user);
 
     std::cout << "Login::fromBin userName: " << userName << "\n";

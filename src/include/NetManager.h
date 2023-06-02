@@ -27,6 +27,10 @@ public:
 
     void DoMessages();
 
+    void receive();
+    void process();
+
+
     void SendMessage(Message &messageToSend);
 
     void AddPositionCallback(std::function<void(const PositionMessage&)> callback);
@@ -50,7 +54,8 @@ private:
 
     std::thread netThread;
 
-    std::list<Message> toProcess;
+    std::list<Message*> toProcess;
+    bool turn;
 
 };
 

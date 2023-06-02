@@ -49,6 +49,7 @@ public:
     const static u_int16_t MAX_SIZE = 1024;
 
     Message(MessageType a);
+    Message(const Message& m);
 
     virtual void to_bin() override;
 

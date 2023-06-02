@@ -39,6 +39,9 @@ int main(int argc, char *argv[]) {
         
         Uint32 delta = SDL_GetTicks() - last;
         last = SDL_GetTicks();
+        
+        NetManager::Instance()->receive();
+        NetManager::Instance()->process();
 
         input->UpdateEvents();
         exit = InputManager::Instance()->Quit();
