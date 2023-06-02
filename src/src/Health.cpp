@@ -4,6 +4,8 @@
 #include "src/include/Transform.h"
 #include "src/include/NetManager.h"
 #include "src/include/Redes/Message.h"
+#include "src/include/StateMachine.h"
+#include "src/include/StateMainMenu.h"
 
 Health::Health() : maxHealth(100), health(maxHealth) {
     container = {0, 0, 50, 10};
@@ -38,6 +40,8 @@ void Health::SubstractHealth(uint16_t val) {
         Message msg = Message(MATCHEND);
         NetManager::Instance()->SendMessage(msg);
         gameObject->context->DestroyGameObject(gameObject);
+        gameObject->context->GetContext()->SetState<MainMenu>();
+        NetManager::Instance()->EndMatch();
     } else {
         health = newVal;
 

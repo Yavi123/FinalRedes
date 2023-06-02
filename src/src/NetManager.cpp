@@ -103,3 +103,7 @@ void NetManager::changeTurn(){
     turn = false;
     SendMessage(msg);
 }
+
+void NetManager::EndMatch(){
+    turn = host;
+}
