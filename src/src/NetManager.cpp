@@ -85,7 +85,7 @@ void NetManager::DoMessages() {
             login.from_bin(msg.data());
             this->client = client;
         }
-        else if(msg.type == POSITION) {
+        else if(msg.type == TRANSFORM) {
         }
     }
 }

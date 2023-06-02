@@ -86,14 +86,15 @@ int LoginMessage::from_bin(char * bobj) {
 
 
 
-PositionMessage::PositionMessage() : PositionMessage(0, {0, 0}){ }
+TransformMessage::TransformMessage() : TransformMessage(0, {0, 0}, 0){ }
 
-PositionMessage::PositionMessage(u_int16_t gOId, const Vector2& pos): Message(POSITION) {
+TransformMessage::TransformMessage(u_int16_t gOId, const Vector2& pos, float rot): Message(TRANSFORM) {
     gObjectId = gOId;
     position = pos;
+    rotation = rot;
 }
 
-void PositionMessage::to_bin() {
+void TransformMessage::to_bin() {
 
     alloc_data(MAX_SIZE);
     memset(_data, 0, MAX_SIZE);
@@ -110,9 +111,12 @@ void PositionMessage::to_bin() {
 
     memcpy(aux, &position.y, sizeof(float));
 
+    aux += sizeof(float);
+    memcpy(aux, &rotation, sizeof(float));
+
 }
 
-int PositionMessage::from_bin(char * bobj) {
+int TransformMessage::from_bin(char * bobj) {
 
     char* aux = bobj;
     alloc_data(MAX_SIZE);
@@ -128,6 +132,8 @@ int PositionMessage::from_bin(char * bobj) {
     memcpy(&newX, aux, sizeof(float));
     aux += sizeof(float);
     memcpy(&newY, aux, sizeof(float));
+    aux += sizeof(float);
+    memcpy(&rotation, aux, sizeof(float));
     aux += sizeof(float);
 
     position = {newX, newY};

@@ -22,10 +22,9 @@ Playing::~Playing() {
 }
 
 void Playing::Init() {
+
     GameObject* obj = new GameObject();
     obj->getTransform()->setPosition(200 - 25, 400);
-    obj->addComponent<PlayerController>();
-    obj->addComponent<Shooting>();
     obj->addComponent<RenderCube>();
     obj->addComponent<Collider>();
     obj->addComponent<Health>();
@@ -37,6 +36,15 @@ void Playing::Init() {
     obj2->addComponent<Collider>();
     obj2->addComponent<Health>();
     obj2->addComponent<GravityComponent>();
+
+    if(NetManager::Instance()->isHost()) {
+        obj->addComponent<PlayerController>();
+        obj->addComponent<Shooting>();
+    }
+    else {
+        obj2->addComponent<PlayerController>();
+        obj2->addComponent<Shooting>();
+    }
 
     GameObject* suelo = new GameObject();
     suelo->getTransform()->setPosition(0, 550);
@@ -84,32 +92,39 @@ void Playing::Init() {
 
 void Playing::HandleMessage(const Message& msg) {
     switch (msg.type){
-        case POSITION: {
-            PositionMessage pMsg;
+        case TRANSFORM: {
+            TransformMessage pMsg;
             pMsg.from_bin(msg.data());
             GameObject* obj = GetGameObjectById(pMsg.gObjectId);
-            obj->getTransform()->setPosition(pMsg.position);
+            if(obj != nullptr)
+            {
+                obj->getTransform()->setPosition(pMsg.position);
+                obj->getTransform()->setRotation(pMsg.rotation);
+            }
         }
         break;
         case NEWOBJECT: {
             NewObjectMessage nMsg;
             nMsg.from_bin(msg.data());
             GameObject* obj = nMsg.result;
-            AddGameObject(obj);
+            if(obj != nullptr)
+                AddGameObject(obj);
         }
         break;
         case DESTROYOBJECT: {
             DestroyObjectMessage dMsg;
             dMsg.from_bin(msg.data());
             GameObject* obj = GetGameObjectById(dMsg.idToKill);
-            DestroyGameObject(obj);
+            if(obj != nullptr)
+                DestroyGameObject(obj);
         }
         break;
         case REDUCEHEALTH: {
             ReduceHealthMessage rMsg;
             rMsg.from_bin(msg.data());
             GameObject* obj = GetGameObjectById(rMsg.idToCheck);
-            obj->getComponent<Health>()->SubstractHealth(rMsg.newHealth);
+            if(obj != nullptr)
+                obj->getComponent<Health>()->SetHealth(rMsg.newHealth);
         }
         break;
         case LOGOUT:

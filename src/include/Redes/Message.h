@@ -32,7 +32,7 @@ enum MessageType : uint8_t
     EMPTY               = 0,
     LOGIN               = 1,
     MATCHSTART          = 2,
-    POSITION            = 3,
+    TRANSFORM            = 3,
     ONTURNEND           = 4,
     NEWOBJECT           = 5,
     DESTROYOBJECT       = 6,
@@ -77,11 +77,11 @@ public:
     MatchStartMessage() : Message(MATCHSTART){};
 };
 
-class PositionMessage : public Message {
+class TransformMessage : public Message {
 public:
-    PositionMessage();
+    TransformMessage();
 
-    PositionMessage(u_int16_t gOId, const Vector2& pos);
+    TransformMessage(u_int16_t gOId, const Vector2& pos, float rot);
 
     void to_bin() override;
 
@@ -89,6 +89,7 @@ public:
 
     u_int16_t gObjectId;
     Vector2 position;
+    float rotation;
 };
 
 class TurnEndMessage : public Message {

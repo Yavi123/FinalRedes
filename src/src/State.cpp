@@ -1,6 +1,8 @@
 #include "src/include/State.h"
 #include "src/include/GameObject.h"
 #include "src/include/CollissionManager.h"
+#include "src/include/Redes/Message.h"
+#include "src/include/NetManager.h"
 
 State::State() {
     gameObjects = std::list<GameObject*>();
@@ -16,6 +18,8 @@ void State::AddGameObject(GameObject* obj) {
 void State::DestroyGameObject(GameObject* obj) {
     if (toDelete.back() != obj)
     toDelete.push_back(obj);
+    DestroyObjectMessage msg(obj->id);
+    NetManager::Instance()->SendMessage(msg);
 }
 void State::Start() {
     for (GameObject* obj : gameObjects) {
@@ -39,7 +43,7 @@ void State::Update(float deltaTime) {
     toDelete.clear();
 }
 
-GameObject* State::GetGameObjectById(uint16_t id){
+GameObject* State::GetGameObjectById(u_int16_t id){
     for(GameObject* obj : gameObjects){
         if(obj->id == id){
             return obj;

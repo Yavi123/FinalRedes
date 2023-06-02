@@ -12,13 +12,15 @@ Transform::Transform(float x, float y) {
     rotation = 0;
 }
 Transform::~Transform() {
-    
+
 }
 void Transform::update(float dt) {
     //std::cout << "Transform::update()\n";
     position.x += velocity.x * dt;
     position.y += velocity.y * dt;
     if(velocity.getX() == 0 && velocity.getY() == 0) return;
+    TransformMessage msg(gameObject->id, position, rotation);
+    NetManager::Instance()->SendMessage(msg);
 }
 void Transform::start() {
 }

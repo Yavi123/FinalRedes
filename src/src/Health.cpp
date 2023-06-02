@@ -29,7 +29,6 @@ void Health::update(float dt) {
 }
 
 void Health::SetHealth(uint16_t val) {
-    maxHealth = val;
     health = val;
 }
 void Health::SubstractHealth(uint16_t val) {
@@ -40,8 +39,8 @@ void Health::SubstractHealth(uint16_t val) {
     } else {
         health = newVal;
 
-        ReduceHealthMessage ms = ReduceHealthMessage(gameObject->id, health);
-        NetManager::Instance()->SendMessage(ms);
+        ReduceHealthMessage msg(gameObject->id, health);
+        NetManager::Instance()->SendMessage(msg);
     }
 }
 uint16_t Health::getHealth() {

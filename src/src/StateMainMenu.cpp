@@ -38,6 +38,7 @@ void MainMenu::Init() {
 		obj->addComponent<ImageRenderer>()->SetImage("Assets/play.png");
 		AddGameObject(obj);
 	}	
+	else AddGameObject(new GameObject());
 }
 
 void MainMenu::HandleMessage(const Message& msg) {
@@ -67,9 +68,7 @@ void MainMenu::HandleMessage(const Message& msg) {
 				obj->addComponent<ImageRenderer>()->SetImage("Assets/play.png");
 				AddGameObject(obj);
 			}
-			NetManager::Instance()->setAsHost();
-			
-	
+			NetManager::Instance()->setAsHost();	
 			break;
 		case MATCHSTART:
 			stMachine->SetState<Playing>();

@@ -38,7 +38,9 @@ void Shooting::update(float dt){
 
         gameObject->context->AddGameObject(bala);
         bala->getComponent<RenderCube>()->setColor({0, 0, 255, 255});
-        
+
+        NewObjectMessage msg(bala);
+        NetManager::Instance()->SendMessage(msg);
     }
 }
 
