@@ -86,10 +86,21 @@ void NetManager::DoMessages() {
                 onLogin(login);
             }
         }
+        else if(msg.type == POSITION) {
+            for(auto& callback : positionCallbacks) {
+                PositionMessage position;
+                position.from_bin(msg.data());
+                callback(position);
+            }
+        }
     }
 }
 
 void NetManager::SendMessage(Message &messageToSend) {
     if(client!=nullptr)
     socket->send(messageToSend, *client);
+}
+
+void NetManager::AddPositionCallback(std::function<void(const PositionMessage&)> callback) {
+    positionCallbacks.push_back(callback);
 }

@@ -34,6 +34,14 @@ void MainMenu::Init() {
 	
 	AddGameObject(fondo);
 	AddGameObject(obj);
+
+	NetManager::Instance()->SetOnLogin([](const LoginMessage& a) 
+	{
+		std::cout<<"Login: "<<a.userName<<"\n";
+		LoginMessage msg("Xx_MiNombre_xX");
+		NetManager::Instance()->SendMessage(msg);
+		NetManager::Instance()->SetOnLogin(nullptr);
+	});
 }
 
 void MainMenu::ChangeState() {

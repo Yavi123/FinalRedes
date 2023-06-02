@@ -29,6 +29,7 @@ public:
         if ( _data != 0 )
         {
             free(_data);
+            _data = nullptr;
         }
     }
 
