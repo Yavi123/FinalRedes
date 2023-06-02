@@ -26,36 +26,38 @@ void Collider::update(float dt){
 	collider.w = tr->getSize().x;
 	collider.h = tr->getSize().y;
 
-	SDL_Utils::Instance()->DrawRect(collider, { 0,0,255,255 });
+	//SDL_Utils::Instance()->DrawRect(collider, { 0,0,255,255 });
 }
 
 void Collider::onCollission(GameObject* other){
 	if (isTrigger || other->getComponent<Collider>()->IsTrigger()) return;
 	if(gameObject->getTransform()->getVelocity().x == 0 && gameObject->getTransform()->getVelocity().y == 0) return;
-	//Ejecuta colision entre los dos gameobjects
-	Vector2 inv = gameObject->getComponent<Transform>()->getVelocity()/10000;
-	float posX = gameObject->getComponent<Transform>()->getPosition().x - other->getComponent<Transform>()->getPosition().x;
-	float posY = gameObject->getComponent<Transform>()->getPosition().y - other->getComponent<Transform>()->getPosition().y;
-	float x = gameObject->getComponent<Transform>()->getPosition().x;
-	float y = gameObject->getComponent<Transform>()->getPosition().y;
-	bool mod = false;
-	if(posX - gameObject->getTransform()->getSize().x < 0){
-		if(inv.x < 0 && posX > 0 || inv.x > 0 && posX < 0)
-		{
-			x -= inv.x;
-			mod = true;
+
+	auto transform = gameObject->getTransform();
+
+	SDL_Rect otherCol = other->getComponent<Collider>()->collider;
+
+	SDL_Rect result;
+
+	if (SDL_IntersectRect(&collider, &otherCol, &result)) {
+		
+		if (result.w > result.h) {
+			if (collider.y > otherCol.y && transform->getVelocity().y < 0) {
+				transform->setPosition({transform->getPosition().x, transform->getPosition().y + (result.h + 1)});
+			}
+			else if (collider.y <= otherCol.y && transform->getVelocity().y > 0) {
+				transform->setPosition({transform->getPosition().x, transform->getPosition().y - result.h});
+			}
+			transform->setVelocity({ transform->getVelocity().x,0 });
+		} else {
+			if (collider.x > otherCol.x && transform->getVelocity().x < 0) {
+				transform->setPosition({transform->getPosition().x + (result.w + 1), transform->getPosition().y});
+			}
+			else if (collider.x <= otherCol.x && transform->getVelocity().x > 0) {
+				transform->setPosition({transform->getPosition().x - (result.w + 1), transform->getPosition().y});
+			}
+			transform->setVelocity({ 0,transform->getVelocity().y });
 		}
-	}
-	if(posY - gameObject->getTransform()->getSize().y < 0){
-				if(inv.y < 0 && posY > 0 || inv.y > 0 && posY < 0)
-		{
-			y -= inv.y;
-			mod = true;
-		}
-	}
-	if(mod){
-		gameObject->getComponent<Transform>()->setPosition(x, y);
-		gameObject->getComponent<Transform>()->setVelocity({ 0,0 });
 	}
 }
 
@@ -124,8 +126,8 @@ bool Collider::collidesWithRotation(const Vector2 &o1Pos, float o1Width,
 			|| PointInRectangle(Blu, Bru, Bll, Brl, Arl);
 }
 
-bool Collider::PointInRectangle(const Vector2 &A, const Vector2 &B,
-		const Vector2 &C, const Vector2 &D, const Vector2 &P) {
+bool Collider::PointInRectangle(const Vector2 &A, const Vector2 &C,
+		const Vector2 &B, const Vector2 &D, const Vector2 &P) {
 	if (PointInTriangle(A, B, C, P))
 		return true;
 	if (PointInTriangle(A, C, D, P))

@@ -56,8 +56,8 @@ void Playing::Init() {
     paredDer->addComponent<Collider>();
 
     GameObject* techo = new GameObject();
-    techo->getTransform()->setPosition(0, 0);
-    techo->getTransform()->setSize(800, 10);
+    techo->getTransform()->setPosition(0, -90);
+    techo->getTransform()->setSize(800, 100);
     techo->addComponent<RenderCube>();
     techo->getComponent<RenderCube>()->setColor({48, 20, 3, 255});
     techo->addComponent<Collider>();
