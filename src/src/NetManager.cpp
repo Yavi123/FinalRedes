@@ -38,7 +38,7 @@ void NetManager::Init(bool host, const char * name, const char * s, const char *
             _instance->client = new Socket(s.c_str(),"8080");
             LoginMessage m = LoginMessage(_instance->name);
             _instance->SendMessage(m);
-            _instance->turn = true;
+            _instance->turn = false;
            // _instance->InitThread();
         }
     }
@@ -55,39 +55,6 @@ void NetManager::Clear() {
         delete _instance;
     }
     _instance = nullptr;
-}
-
-void NetManager::InitThread() {
-}
-
-void NetManager::DoMessages() {
-
-    while (true)
-    {
-        /*
-         * NOTA: los clientes están definidos con "smart pointers", es necesario
-         * crear un unique_ptr con el objeto socket recibido y usar std::move
-         * para añadirlo al vector
-         */
-
-        //Recibir Mensajes en y en función del tipo de mensaje
-        // - LOGIN: Añadir al vector clients
-        // - LOGOUT: Eliminar del vector clients
-        // - MESSAGE: Reenviar el mensaje a todos los clientes (menos el emisor)
-        Message msg(EMPTY);
-        Socket* client;
-        int ret = socket->recv(msg, &client);
-        if(ret == -1) continue;
-
-        if(msg.type == LOGIN) {
-            host = true;
-            LoginMessage login;
-            login.from_bin(msg.data());
-            this->client = client;
-        }
-        else if(msg.type == TRANSFORM) {
-        }
-    }
 }
 
 void NetManager::SendMessage(Message &messageToSend) {
@@ -129,4 +96,10 @@ void NetManager::setAsHost(){
     client = nullptr;
 
     
+}
+
+void NetManager::changeTurn(){
+    Message msg = Message(ONTURNEND);
+    turn = false;
+    SendMessage(msg);
 }

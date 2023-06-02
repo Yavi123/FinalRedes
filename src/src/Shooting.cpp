@@ -10,14 +10,15 @@
 #include "src/include/Collider.h"
 #include "src/include/Redes/Message.h"
 #include "src/include/NetManager.h"
+#include "src/include/PlayerController.h"
 
 Shooting::Shooting() {};
 
 Shooting::~Shooting(){};
 
 void Shooting::update(float dt){
+    if(!NetManager::Instance()->isTurn()) return;
     if (Input()->MouseClick()) {
-        std::cout << dt << "\n";
         auto bala = new GameObject();
         bala->getTransform()->setPosition(
             gameObject->getTransform()->getPosition() + 
@@ -39,8 +40,13 @@ void Shooting::update(float dt){
         gameObject->context->AddGameObject(bala);
         bala->getComponent<RenderCube>()->setColor({0, 0, 255, 255});
 
+        if(gameObject->getComponent<PlayerController>() != nullptr){
+            gameObject->getComponent<PlayerController>()->setShot(true);
+        }
+
         NewObjectMessage msg(bala);
         NetManager::Instance()->SendMessage(msg);
+        NetManager::Instance()->changeTurn();
     }
 }
 

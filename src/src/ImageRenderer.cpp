@@ -14,8 +14,8 @@ void ImageRenderer::update(float dt) {
         Transform* tr = gameObject->getTransform();
         SDL_Rect src = { 0, 0, image->width, image->height };
 
-        SDL_Rect dest = { tr->getPosition().x , tr->getPosition().y ,
-            tr->getSize().x, tr->getSize().y };
+        SDL_Rect dest = { (int)tr->getPosition().x , (int)tr->getPosition().y ,
+            (int)tr->getSize().x, (int)tr->getSize().y };
 
         if (SDL_RenderCopyEx(SDL_Utils::Instance()->Renderer(), 
             image->_tex, &src, &dest, tr->getRotation(), 

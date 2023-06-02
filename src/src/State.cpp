@@ -9,7 +9,13 @@ State::State() {
     colman = CollissionManager::getInstance();
     toAdd = std::list<GameObject*>();
 }
-State::~State() {}
+State::~State() {
+    toAdd.clear();
+    toDelete.clear();
+    for(auto it = gameObjects.begin(); it!= gameObjects.end();it = gameObjects.erase(it)){
+        delete *it;
+    }
+}
 
 void State::AddGameObject(GameObject* obj) {
     toAdd.push_back(obj);

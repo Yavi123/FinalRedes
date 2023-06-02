@@ -35,6 +35,8 @@ void Health::SubstractHealth(uint16_t val) {
     int newVal = (int)health - val;
 
     if (newVal <= 0) {
+        Message msg = Message(MATCHEND);
+        NetManager::Instance()->SendMessage(msg);
         gameObject->context->DestroyGameObject(gameObject);
     } else {
         health = newVal;

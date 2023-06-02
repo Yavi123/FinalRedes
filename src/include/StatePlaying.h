@@ -11,8 +11,8 @@ public:
     Playing();
     ~Playing();
     void Init() override;
-
     void HandleMessage(const Message& msg) override;
+    GameObject* controlled;  
 };
 
 #endif

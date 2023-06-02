@@ -16,10 +16,11 @@ class PlayerController: public Component
         void onCollission(GameObject* other) override;
         void onCollisionExit(GameObject* other) override;
         bool isOnFloor();
+        void setShot(bool b);
     private:
         float speed;
-        bool enSuelo;
-        
+        bool enSuelo;  
+        bool shot;    
 };
 
 #endif

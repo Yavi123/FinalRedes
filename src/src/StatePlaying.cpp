@@ -15,10 +15,10 @@
 #include "src/include/NetManager.h"
 
 Playing::Playing() : State() {
-
+    controlled = nullptr;
 }
 Playing::~Playing() {
-    
+    controlled = nullptr;
 }
 
 void Playing::Init() {
@@ -40,10 +40,12 @@ void Playing::Init() {
     if(NetManager::Instance()->isHost()) {
         obj->addComponent<PlayerController>();
         obj->addComponent<Shooting>();
+        controlled = obj;
     }
     else {
         obj2->addComponent<PlayerController>();
         obj2->addComponent<Shooting>();
+        controlled = obj2;
     }
 
     GameObject* suelo = new GameObject();
@@ -130,6 +132,10 @@ void Playing::HandleMessage(const Message& msg) {
         case LOGOUT:
             NetManager::Instance()->setAsHost();
             stMachine->SetState<MainMenu>(); 
+            break;
+        case ONTURNEND:
+            NetManager::Instance()->setTurn(true);
+            controlled->getComponent<PlayerController>()->setShot(false);
             break;
         default:
             break;

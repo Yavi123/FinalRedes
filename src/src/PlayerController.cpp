@@ -10,6 +10,7 @@
 
 PlayerController::PlayerController() {
     speed = 150;
+    shot = false;
 }
 PlayerController::~PlayerController() {
 
@@ -19,6 +20,7 @@ void PlayerController::start() {
 }
 void PlayerController::update(float dt) {
     //std::cout << "PlayerController::update()\n";
+    if(!NetManager::Instance()->isTurn() || shot) return;
     bool input = false;
     if (InputManager::Instance()->KeyPressed(SDL_SCANCODE_W)) {
         if(enSuelo){
@@ -60,6 +62,9 @@ void PlayerController::onCollisionExit(GameObject* other){
     if (gameObject->getComponent<Collider>()->IsTrigger() || other->getComponent<Collider>()->IsTrigger()) return;
     enSuelo = false;
 }
- bool PlayerController::isOnFloor(){
-    return enSuelo;
- }
+bool PlayerController::isOnFloor(){
+return enSuelo;
+}
+void PlayerController::setShot(bool b){
+    shot = b;
+}

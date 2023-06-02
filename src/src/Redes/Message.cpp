@@ -48,17 +48,17 @@ void LoginMessage::to_bin() {
     memcpy(aux, &type, sizeof(MessageType));
     aux += sizeof(MessageType);
 
-    std::cout << "Login::toBin type: " << type << "\n";
+   
 
     memcpy(aux, &nameLength, sizeof(size_t));
     aux += sizeof(size_t);
 
-    std::cout << "Login::toBin nameLength: " << (size_t)nameLength << "\n";
+    
 
     const char* a = userName.c_str();
         memcpy(aux, a, nameLength);
 
-    std::cout << "Login::toBin userName: " << a << "\n";
+  
 }
 
 int LoginMessage::from_bin(char * bobj) {
@@ -69,18 +69,17 @@ int LoginMessage::from_bin(char * bobj) {
     memcpy(&type, aux, sizeof(MessageType));
     aux += sizeof(uint8_t);
 
-    std::cout << "Login::fromBin type: " << type << "\n";
+  
 
     memcpy(&nameLength, aux, sizeof(size_t));
     aux += sizeof(size_t);
 
-    std::cout << "Login::fromBin nameLength: " << nameLength << "\n";
 
     char user[nameLength];
     memcpy(user, aux, nameLength);
     userName = std::string(user);
 
-    std::cout << "Login::fromBin userName: " << userName << "\n";
+
     return 0;
 }
 
@@ -250,6 +249,7 @@ int DestroyObjectMessage::from_bin(char * bobj) {
     
     memcpy(&idToKill, bobj, sizeof(u_int16_t));
     bobj += sizeof(u_int16_t);
+    return 0;
 }
 
 
@@ -286,4 +286,5 @@ int ReduceHealthMessage::from_bin(char * bobj) {
     
     memcpy(&newHealth, bobj, sizeof(u_int16_t));
     bobj += sizeof(u_int16_t);
+    return 0;
 }

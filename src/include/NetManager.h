@@ -1,8 +1,6 @@
 #ifndef NETMANAGER_H
 #define NETMANAGER_H
 
-#include <thread>
-#include <functional>
 #include "src/include/Redes/Socket.h"
 #include <list>
 
@@ -20,12 +18,6 @@ public:
 
     void SetStateMachine(StateMachine* m) {stMachine = m;};
 
-    //void setSock(const char* ip, const char* port);
-
-    void InitThread();
-
-    void DoMessages();
-
     void receive();
     void process();
 
@@ -37,6 +29,9 @@ public:
    
     inline bool isHost() {return host;};
     void setAsHost();
+
+    void changeTurn();
+    inline void setTurn(bool b){turn = b;};
 private:
 
     NetManager();

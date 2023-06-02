@@ -51,10 +51,6 @@ int Socket::recv(Serializable &obj, Socket ** sock)
         (*sock) = new Socket(&sa, sa_len);
     }
 
-    std::cout << "cliente: " << **sock;
-
-    std::cout << "LLEGO algo: " << buffer << "\n";
-
     obj.from_bin(buffer);
 
     return bytes;
