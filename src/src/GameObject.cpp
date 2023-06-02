@@ -1,9 +1,13 @@
 #include "src/include/GameObject.h"
 #include "src/include/Transform.h"
 
+u_int16_t GameObject::numOfGameObjects = 0;
+
 GameObject::GameObject() : currComponents(), _components() {
     transform = addComponent<Transform>();
     context = nullptr;
+    id = numOfGameObjects;
+    numOfGameObjects++;
 }
 GameObject::~GameObject(){
     for(auto it = currComponents.begin(); it != currComponents.end(); it = currComponents.erase(it)){
@@ -11,7 +15,6 @@ GameObject::~GameObject(){
     }
   
 }
-
 
 void GameObject::update(float dt){
     for(Component* c : currComponents){

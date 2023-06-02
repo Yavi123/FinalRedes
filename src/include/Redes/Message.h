@@ -6,6 +6,8 @@
 
 #include "Serializable.h"
 #include "Socket.h"
+#include "src/include/Vector2.h"
+#include "src/include/GameObject.h"
 
 //------------------------------------------------------------------------------
 //------------------------------------------------------------------------------
@@ -27,14 +29,16 @@
 
 enum MessageType : uint8_t
 {
-    EMPTY       = 0,
-    LOGIN       = 1,
-    MATCHSTART  = 2,
-    INPUT       = 3,
-    POSITION    = 4,
-    NEWOBJECT   = 5,
-    MATCHEND    = 6,
-    LOGOUT      = 7
+    EMPTY           = 0,
+    LOGIN           = 1,
+    MATCHSTART      = 2,
+    POSITION        = 3,
+    ONTURNEND       = 4,
+    NEWOBJECT       = 5,
+    DESTROYOBJECT   = 6,
+    MATCHEND        = 7,
+    REDUCEHEALTH    = 8,
+    LOGOUT          = 9
 };
 
 class Message: public Serializable
@@ -42,7 +46,7 @@ class Message: public Serializable
 public:
     u_int8_t MESSAGE_SIZE = sizeof(uint8_t);
 
-    const static u_int8_t MAX_SIZE = 255;
+    const static u_int16_t MAX_SIZE = 1024;
 
     Message(MessageType a);
 
@@ -54,7 +58,6 @@ public:
 };
 
 class LoginMessage : public Message {
-
 public:
     LoginMessage();
         
@@ -66,4 +69,65 @@ public:
 
     std::string userName;
     size_t nameLength;
+};
+
+class MatchStartMessage : public Message {
+public:
+    MatchStartMessage() : Message(MATCHSTART){};
+};
+
+class PositionMessage : public Message {
+public:
+    PositionMessage();
+
+    PositionMessage(u_int16_t gOId, const Vector2& pos);
+
+    void to_bin() override;
+
+    int from_bin(char * bobj) override;
+
+    u_int16_t gObjectId;
+    Vector2 position;
+};
+
+class TurnEndMessage : public Message {
+public:
+    TurnEndMessage() : Message(ONTURNEND){};
+};
+
+class NewObjectMessage : public Message {
+public:
+    NewObjectMessage() : Message(NEWOBJECT){};
+    NewObjectMessage(GameObject* toSend);
+
+    void to_bin() override;
+
+    int from_bin(char * bobj) override;
+
+    GameObject* result;
+};
+
+class DestroyObjectMessage : public Message {
+public:
+    DestroyObjectMessage() : Message(DESTROYOBJECT){};
+    DestroyObjectMessage(u_int16_t idDestroyed);
+
+    void to_bin() override;
+
+    int from_bin(char * bobj) override;
+
+    u_int16_t idToKill;
+};
+
+class ReduceHealthMessage : public Message {
+public:
+    ReduceHealthMessage() : Message(REDUCEHEALTH){};
+    ReduceHealthMessage(u_int16_t idHit, u_int16_t newValue);
+
+    void to_bin() override;
+
+    int from_bin(char * bobj) override;
+
+    u_int16_t idToCheck;
+    u_int16_t newHealth;
 };

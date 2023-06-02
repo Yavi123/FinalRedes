@@ -17,6 +17,7 @@ public:
     void start() override;
     void awake(){};
     void setColor(const SDL_Color& c);
+    SDL_Color GetColor() {return color;};
 private:
     SDL_Color color;
     Texture* _cube;

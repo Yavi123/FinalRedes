@@ -2,11 +2,18 @@
 #include "src/include/GameObject.h"
 #include "src/include/State.h"
 #include "src/include/Transform.h"
+#include "src/include/NetManager.h"
+#include "src/include/Redes/Message.h"
 
 Health::Health() : maxHealth(100), health(maxHealth) {
     container = {0, 0, 50, 10};
     gauge = {0, 0, 50, 10};
 };
+
+void Health::start() {
+    //Registrar un callback cuando llegue un mensaje de reducehealth
+    //Comprobar en el callback que las ids de los gameobjects coinciden
+}
 
 void Health::update(float dt) {
     auto tr = gameObject->getComponent<Transform>();
@@ -32,5 +39,8 @@ void Health::SubstractHealth(uint16_t val) {
         gameObject->context->DestroyGameObject(gameObject);
     } else {
         health = newVal;
+
+        ReduceHealthMessage ms = ReduceHealthMessage(gameObject->id, health);
+        NetManager::Instance()->SendMessage(ms);
     }
 }

@@ -11,7 +11,7 @@ public:
     Health();
     ~Health() = default;
     void update(float dt) override;
-    void start() override {};
+    void start() override;
     void awake(){};
 
     void SetHealth(uint16_t val);
