@@ -32,7 +32,7 @@ void NetManager::Init(bool host, const char * name, const char * s, const char *
             std::cin >> s;
             _instance->client = new Socket(s.c_str(),"8080");
             LoginMessage m;
-            m.nameLength = 2;
+            m.nameLength = 3;
             m.userName ="aa";
             _instance->SendMessage(m);
             _instance->InitThread();
@@ -86,7 +86,6 @@ void NetManager::DoMessages() {
                 onLogin(login);
             }
         }
-
     }
 }
 

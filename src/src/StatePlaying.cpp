@@ -19,7 +19,7 @@ Playing::~Playing() {
 
 void Playing::Init() {
     GameObject* obj = new GameObject();
-    obj->getTransform()->setPosition(200, 400);
+    obj->getTransform()->setPosition(200 - 25, 400);
     obj->addComponent<PlayerController>();
     obj->addComponent<Shooting>();
     obj->addComponent<RenderCube>();
@@ -28,7 +28,7 @@ void Playing::Init() {
     obj->addComponent<GravityComponent>();
 
     GameObject* obj2 = new GameObject();
-    obj2->getTransform()->setPosition(600, 400);
+    obj2->getTransform()->setPosition(600 - 25, 400);
     obj2->addComponent<RenderCube>();
     obj2->addComponent<Collider>();
     obj2->addComponent<Health>();
@@ -62,9 +62,13 @@ void Playing::Init() {
     techo->getComponent<RenderCube>()->setColor({48, 20, 3, 255});
     techo->addComponent<Collider>();
 
+    GameObject* plataforma = new GameObject();
+    plataforma->getTransform()->setPosition(250, 400);
+    plataforma->getTransform()->setSize(300, 15);
+    plataforma->addComponent<RenderCube>();
+    plataforma->getComponent<RenderCube>()->setColor({110, 100, 100, 255});
+    plataforma->addComponent<Collider>();
 
-
-    //obj->addComponent<Shooting>();
 
     AddGameObject(obj);
     AddGameObject(obj2);
@@ -72,4 +76,5 @@ void Playing::Init() {
     AddGameObject(paredIzq);
     AddGameObject(paredDer);
     AddGameObject(techo);
+    AddGameObject(plataforma);
 }
