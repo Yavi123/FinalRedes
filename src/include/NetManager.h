@@ -8,6 +8,7 @@
 
 class Message;
 class LoginMessage;
+class PositionMessage;
 
 typedef void (*LoginCallback)(const LoginMessage&);
 
@@ -28,6 +29,8 @@ public:
 
     void SendMessage(Message &messageToSend);
 
+    void AddPositionCallback(std::function<void(const PositionMessage&)> callback);
+
 private:
 
     NetManager();
@@ -40,6 +43,7 @@ private:
     const char* name;
 
     LoginCallback onLogin;
+    std::list<std::function<void(const PositionMessage&)>> positionCallbacks;
 
     Socket* socket;
     Socket* client;

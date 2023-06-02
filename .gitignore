@@ -4,3 +4,4 @@
 *.a
 *.i
 build/main
+.vscode/launch.json

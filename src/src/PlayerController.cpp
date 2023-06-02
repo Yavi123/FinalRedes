@@ -24,11 +24,14 @@ void PlayerController::update(float dt) {
         if(enSuelo){
             gameObject->getComponent<Transform>()->setVelocity({gameObject->getComponent<Transform>()->getVelocity().x, -speed*5});
         }
+        input = true;
     }
-    // if (InputManager::Instance()->KeyPressed(SDL_SCANCODE_S)) {
-    //     gameObject->getComponent<Transform>()->setVelocity({gameObject->getComponent<Transform>()->getVelocity().x, speed});
-    //     input = true;
-    // }
+    if (InputManager::Instance()->KeyPressed(SDL_SCANCODE_S)) {
+        if(enSuelo){
+            gameObject->getComponent<Transform>()->setVelocity({gameObject->getComponent<Transform>()->getVelocity().x, +speed*5});
+        }
+        input = true;
+    }
     if (InputManager::Instance()->KeyPressed(SDL_SCANCODE_A)) {
         gameObject->getComponent<Transform>()->setVelocity({-speed, gameObject->getComponent<Transform>()->getVelocity().y});
         input = true;

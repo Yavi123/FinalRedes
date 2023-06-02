@@ -106,20 +106,21 @@ void PositionMessage::to_bin() {
 
 int PositionMessage::from_bin(char * bobj) {
 
+    char* aux = bobj;
     alloc_data(MAX_SIZE);
-    memcpy(static_cast<void*>(_data), bobj, MAX_SIZE);
+    memcpy(static_cast<void*>(_data), aux, MAX_SIZE);
 
-    memcpy(&type, bobj, sizeof(MessageType));
-    bobj += sizeof(MessageType);
+    memcpy(&type, aux, sizeof(MessageType));
+    aux += sizeof(MessageType);
     
-    memcpy(&gObjectId, bobj, sizeof(u_int16_t));
-    bobj += sizeof(u_int16_t);
+    memcpy(&gObjectId, aux, sizeof(u_int16_t));
+    aux += sizeof(u_int16_t);
 
     float newX = 0, newY = 0;
-    memcpy(&newX, bobj, sizeof(float));
-    bobj += sizeof(float);
-    memcpy(&newY, bobj, sizeof(float));
-    bobj += sizeof(float);
+    memcpy(&newX, aux, sizeof(float));
+    aux += sizeof(float);
+    memcpy(&newY, aux, sizeof(float));
+    aux += sizeof(float);
 
     position = {newX, newY};
     return 0;
