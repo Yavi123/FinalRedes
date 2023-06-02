@@ -45,7 +45,6 @@ void InputManager::UpdateEvents() {
                         _quit = true;
                     }
                     else {
-                        std::cout << "Down\n";
                         if (_inputs.find(event.key.keysym.scancode) != _inputs.end())
                             _inputs.at(event.key.keysym.scancode) = true;
                         else
@@ -54,7 +53,6 @@ void InputManager::UpdateEvents() {
                     break;
                 case SDL_KEYUP:
                     if (event.key.keysym.scancode != SDL_SCANCODE_ESCAPE) {
-                        std::cout << "Up\n";
                         if (_inputs.find(event.key.keysym.scancode) != _inputs.end())
                             _inputs.at(event.key.keysym.scancode) = false;
                         else

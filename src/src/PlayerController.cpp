@@ -3,6 +3,8 @@
 #include "src/include/GameObject.h"
 #include "src/include/Transform.h"
 #include "src/include/InputManager.h"
+#include "src/include/NetManager.h"
+#include "src/include/Redes/Message.h"
 #include "src/include/Collider.h"
 
 
@@ -44,6 +46,10 @@ void PlayerController::onCollission(GameObject* other){
     //std::cout << "PlayerController::onCollission()\n";   
     if (gameObject->getComponent<Collider>()->IsTrigger() || other->getComponent<Collider>()->IsTrigger()) return;
     enSuelo = true;
+    if (InputManager::Instance()->KeyPressed(SDL_SCANCODE_1)) {
+		LoginMessage msg("Xx_MiNombre_xX");
+		NetManager::Instance()->SendMessage(msg);
+	}
 }
 
 void PlayerController::onCollisionExit(GameObject* other){

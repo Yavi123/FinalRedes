@@ -14,8 +14,8 @@
 Message::Message(MessageType a) : type(a){};
 
 void Message::to_bin() {
-    alloc_data(MESSAGE_SIZE);
-    memset(_data, 0, MESSAGE_SIZE);
+    alloc_data(MAX_SIZE);
+    memset(_data, 0, MAX_SIZE);
     memcpy(_data, &type, sizeof(MessageType));
 }
 
@@ -29,14 +29,14 @@ int Message::from_bin(char * bobj) {
 
 
 LoginMessage::LoginMessage() : Message(LOGIN), userName("SinNombre"), nameLength(strlen(userName.c_str()))
-    { MESSAGE_SIZE = strlen(userName.c_str()) + sizeof(uint8_t) + sizeof(size_t); };
-    
+{ MESSAGE_SIZE = strlen(userName.c_str()) + sizeof(uint8_t) + sizeof(size_t); };
+
 LoginMessage::LoginMessage(std::string name) : Message(LOGIN), userName(name), nameLength(strlen(userName.c_str()))
-    { MESSAGE_SIZE = strlen(userName.c_str()) + sizeof(uint8_t) + sizeof(size_t); };
+{ MESSAGE_SIZE = strlen(userName.c_str()) + sizeof(uint8_t) + sizeof(size_t); };
 
 void LoginMessage::to_bin() {
-    alloc_data(MESSAGE_SIZE);
-    memset(_data, 0, MESSAGE_SIZE);
+    alloc_data(MAX_SIZE);
+    memset(_data, 0, MAX_SIZE);
     char* aux = _data;
     memcpy(aux, &type, sizeof(MessageType));
     aux += sizeof(MessageType);
@@ -49,7 +49,7 @@ void LoginMessage::to_bin() {
     std::cout << "Login::toBin nameLength: " << (size_t)nameLength << "\n";
 
     const char* a = userName.c_str();
-    memcpy(aux, a, nameLength);
+        memcpy(aux, a, nameLength);
 
     std::cout << "Login::toBin userName: " << a << "\n";
 }
@@ -62,7 +62,7 @@ int LoginMessage::from_bin(char * bobj) {
     bobj += sizeof(uint8_t);
 
     std::cout << "Login::fromBin type: " << type << "\n";
-    
+
     memcpy(&nameLength, bobj, sizeof(size_t));
     bobj += sizeof(size_t);
 
@@ -75,6 +75,7 @@ int LoginMessage::from_bin(char * bobj) {
     std::cout << "Login::fromBin userName: " << userName << "\n";
     return 0;
 }
+
 
 
 PositionMessage::PositionMessage() : PositionMessage(0, {0, 0}){ }
@@ -270,5 +271,4 @@ int ReduceHealthMessage::from_bin(char * bobj) {
     
     memcpy(&newHealth, bobj, sizeof(u_int16_t));
     bobj += sizeof(u_int16_t);
-
 }

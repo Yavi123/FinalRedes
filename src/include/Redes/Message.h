@@ -29,16 +29,16 @@
 
 enum MessageType : uint8_t
 {
-    EMPTY           = 0,
-    LOGIN           = 1,
-    MATCHSTART      = 2,
-    POSITION        = 3,
-    ONTURNEND       = 4,
-    NEWOBJECT       = 5,
-    DESTROYOBJECT   = 6,
-    MATCHEND        = 7,
-    REDUCEHEALTH    = 8,
-    LOGOUT          = 9
+    EMPTY               = 0,
+    LOGIN               = 1,
+    MATCHSTART          = 2,
+    POSITION            = 3,
+    ONTURNEND           = 4,
+    NEWOBJECT           = 5,
+    DESTROYOBJECT       = 6,
+    MATCHEND            = 7,
+    REDUCEHEALTH        = 8,
+    LOGOUT              = 9
 };
 
 class Message: public Serializable
@@ -131,3 +131,5 @@ public:
     u_int16_t idToCheck;
     u_int16_t newHealth;
 };
+
+

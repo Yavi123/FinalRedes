@@ -30,7 +30,6 @@ void Collider::update(float dt){
 }
 
 void Collider::onCollission(GameObject* other){
-    std::cout << "Colision\n";
 	if (isTrigger || other->getComponent<Collider>()->IsTrigger()) return;
 	if(gameObject->getTransform()->getVelocity().x == 0 && gameObject->getTransform()->getVelocity().y == 0) return;
 	//Ejecuta colision entre los dos gameobjects
