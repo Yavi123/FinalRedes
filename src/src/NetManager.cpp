@@ -8,9 +8,10 @@ NetManager* NetManager::_instance = nullptr;
 
 NetManager::NetManager() {
     name = "name";
-    isHost = false;
+    host = false;
     socket = nullptr;
     toProcess = std::list<Message*>();
+    turn = false;
 }
 NetManager::~NetManager() {
     delete socket;
@@ -20,12 +21,13 @@ void NetManager::Init(bool host, const char * name, const char * s, const char *
     if (_instance == nullptr) {
         _instance = new NetManager();
         _instance->name = name;
-        _instance->isHost = host;
+        _instance->host = host;
 
-        if(host){
+        if(_instance->host){
             _instance->socket = new Socket(s, p);
             _instance->socket->bind();
             _instance->client = nullptr;
+            _instance->turn = true;
             //_instance->InitThread();
         }else{
             _instance->socket = new Socket(s, p);
@@ -36,6 +38,7 @@ void NetManager::Init(bool host, const char * name, const char * s, const char *
             _instance->client = new Socket(s.c_str(),"8080");
             LoginMessage m = LoginMessage(_instance->name);
             _instance->SendMessage(m);
+            _instance->turn = true;
            // _instance->InitThread();
         }
     }
@@ -77,7 +80,7 @@ void NetManager::DoMessages() {
         if(ret == -1) continue;
 
         if(msg.type == LOGIN) {
-            isHost = true;
+            host = true;
             LoginMessage login;
             login.from_bin(msg.data());
             this->client = client;
@@ -109,10 +112,8 @@ void NetManager::receive(){
     }
 }
 void NetManager::process(){
-    for(Message* m : toProcess){
-        
-        stMachine->GetCurrentState()->HandleMessage(*m);
-               
+    for(Message* m : toProcess){     
+        stMachine->GetCurrentState()->HandleMessage(*m);            
     }
 
     for(auto it = toProcess.begin(); it!=toProcess.end(); ++it){
@@ -120,4 +121,12 @@ void NetManager::process(){
     }
 
     toProcess.clear();
+}
+
+void NetManager::setAsHost(){
+    host = true;
+    turn = true;
+    client = nullptr;
+
+    
 }

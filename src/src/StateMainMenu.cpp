@@ -25,19 +25,19 @@ void MainMenu::Init() {
     fondo->getTransform()->setPosition(0, 0);
     fondo->getTransform()->setSize(800, 600);
     fondo->addComponent<ImageRenderer>()->SetImage("Assets/fondo.jpg");
-
-    GameObject* obj = new GameObject();
-    obj->getTransform()->setPosition(300, 250);
-    obj->getTransform()->setSize(200, 200);
-    obj->addComponent<Button>()->SetOnClick([this]() {
-		stMachine->SetState<Playing>();
-		MatchStartMessage msg = MatchStartMessage();
-		NetManager::Instance()->SendMessage(msg);
-	});
-    obj->addComponent<ImageRenderer>()->SetImage("Assets/play.png");
-	
 	AddGameObject(fondo);
-	AddGameObject(obj);
+	if(NetManager::Instance()->isHost()){
+		GameObject* obj = new GameObject();
+		obj->getTransform()->setPosition(300, 250);
+		obj->getTransform()->setSize(200, 200);
+		obj->addComponent<Button>()->SetOnClick([this]() {
+			stMachine->SetState<Playing>();
+			MatchStartMessage msg = MatchStartMessage();
+			NetManager::Instance()->SendMessage(msg);
+		});
+		obj->addComponent<ImageRenderer>()->SetImage("Assets/play.png");
+		AddGameObject(obj);
+	}	
 }
 
 void MainMenu::HandleMessage(const Message& msg) {
@@ -54,12 +54,27 @@ void MainMenu::HandleMessage(const Message& msg) {
 			}
 		}
 		break;
-		case LOGOUT: {
-			std::cout << "Logout: " << opponent << "\n";
-		}
+		case LOGOUT: 
+			if(!NetManager::Instance()->isHost()){
+				GameObject* obj = new GameObject();
+				obj->getTransform()->setPosition(300, 250);
+				obj->getTransform()->setSize(200, 200);
+				obj->addComponent<Button>()->SetOnClick([this]() {
+					stMachine->SetState<Playing>();
+					MatchStartMessage msg = MatchStartMessage();
+					NetManager::Instance()->SendMessage(msg);
+				});
+				obj->addComponent<ImageRenderer>()->SetImage("Assets/play.png");
+				AddGameObject(obj);
+			}
+			NetManager::Instance()->setAsHost();
+			
+	
+			break;
+		case MATCHSTART:
+			stMachine->SetState<Playing>();
 		break;
 		default:
-			stMachine->SetState<Playing>();
 		break;
 	}
 }

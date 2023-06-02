@@ -29,11 +29,14 @@ public:
     void receive();
     void process();
 
-
     void SendMessage(Message &messageToSend);
 
-    std::string GetNick() {return name;}
+    inline std::string GetNick() {return name;};
 
+    inline bool isTurn() {return turn;};
+   
+    inline bool isHost() {return host;};
+    void setAsHost();
 private:
 
     NetManager();
@@ -41,7 +44,7 @@ private:
 
     static NetManager* _instance;
 
-    bool isHost;
+    bool host;
 
     const char* name;
 
