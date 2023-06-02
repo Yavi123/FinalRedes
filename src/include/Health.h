@@ -13,6 +13,7 @@ public:
     void update(float dt) override;
     void start() override;
     void awake(){};
+    uint16_t getHealth();
 
     void SetHealth(uint16_t val);
     void SubstractHealth(uint16_t val);

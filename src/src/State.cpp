@@ -38,3 +38,12 @@ void State::Update(float deltaTime) {
     }
     toDelete.clear();
 }
+
+GameObject* State::GetGameObjectById(uint16_t id){
+    for(GameObject* obj : gameObjects){
+        if(obj->id == id){
+            return obj;
+        }
+    }
+    return nullptr;
+}

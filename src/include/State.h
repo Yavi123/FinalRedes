@@ -16,6 +16,8 @@ public:
     void AddGameObject(GameObject* obj);
     void DestroyGameObject(GameObject* obj);
 
+    GameObject* GetGameObjectById(uint16_t id);
+
     virtual void HandleMessage(const Message& msg) = 0;
 
     void SetContext(StateMachine* machine) { stMachine = machine;};

@@ -9,6 +9,8 @@
 #include <iostream>
 #include "src/include/Collider.h"
 #include "src/include/Health.h"
+#include "src/include/Redes/Message.h"
+#include "src/include/NetManager.h"
 
 Playing::Playing() : State() {
 
@@ -79,5 +81,36 @@ void Playing::Init() {
 }
 
 void Playing::HandleMessage(const Message& msg) {
-
+    switch (msg.type){
+        case POSITION: {
+            PositionMessage pMsg;
+            pMsg.from_bin(msg.data());
+            GameObject* obj = GetGameObjectById(pMsg.gObjectId);
+            obj->getTransform()->setPosition(pMsg.position);
+        }
+        break;
+        case NEWOBJECT: {
+            NewObjectMessage nMsg;
+            nMsg.from_bin(msg.data());
+            GameObject* obj = nMsg.result;
+            AddGameObject(obj);
+        }
+        break;
+        case DESTROYOBJECT: {
+            DestroyObjectMessage dMsg;
+            dMsg.from_bin(msg.data());
+            GameObject* obj = GetGameObjectById(dMsg.idToKill);
+            DestroyGameObject(obj);
+        }
+        break;
+        case REDUCEHEALTH: {
+            ReduceHealthMessage rMsg;
+            rMsg.from_bin(msg.data());
+            GameObject* obj = GetGameObjectById(rMsg.idToCheck);
+            obj->getComponent<Health>()->SubstractHealth(rMsg.newHealth);
+        }
+        break;
+        default:
+            break;
+    }
 }

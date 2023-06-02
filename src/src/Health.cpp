@@ -44,3 +44,6 @@ void Health::SubstractHealth(uint16_t val) {
         NetManager::Instance()->SendMessage(ms);
     }
 }
+uint16_t Health::getHealth() {
+    return health;
+}
