@@ -15,6 +15,7 @@ class Component
         virtual void update(float dt){};
         virtual void start(){};
         virtual void onCollission(GameObject* other) {};
+        virtual void onCollisionExit(GameObject* other) {};
 
     protected:
         GameObject* gameObject;   

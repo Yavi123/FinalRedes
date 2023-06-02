@@ -20,6 +20,7 @@ class GameObject{
         void update(float dt);
         void start();
         void onCollission(GameObject* other);
+        void onCollisionExit(GameObject* other);
 
         template <typename T, typename ...Ts>
         inline T* addComponent(Ts ...args){

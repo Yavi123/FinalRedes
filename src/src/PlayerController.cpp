@@ -21,7 +21,6 @@ void PlayerController::update(float dt) {
     if (InputManager::Instance()->KeyPressed(SDL_SCANCODE_W)) {
         if(enSuelo){
             gameObject->getComponent<Transform>()->setVelocity({gameObject->getComponent<Transform>()->getVelocity().x, -speed*5});
-            enSuelo = false;
         }
     }
     // if (InputManager::Instance()->KeyPressed(SDL_SCANCODE_S)) {
@@ -42,8 +41,16 @@ void PlayerController::update(float dt) {
 }
 
 void PlayerController::onCollission(GameObject* other){
-    //std::cout << "PlayerController::onCollission()\n";
-    if(other->getComponent<Collider>() != nullptr){
-        enSuelo = true;
-    }
+    //std::cout << "PlayerController::onCollission()\n";   
+    if (gameObject->getComponent<Collider>()->IsTrigger() || other->getComponent<Collider>()->IsTrigger()) return;
+    enSuelo = true;
 }
+
+void PlayerController::onCollisionExit(GameObject* other){
+    //std::cout << "PlayerController::onCollisionExit()\n";
+    if (gameObject->getComponent<Collider>()->IsTrigger() || other->getComponent<Collider>()->IsTrigger()) return;
+    enSuelo = false;
+}
+ bool PlayerController::isOnFloor(){
+    return enSuelo;
+ }

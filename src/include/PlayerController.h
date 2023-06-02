@@ -14,6 +14,8 @@ class PlayerController: public Component
         void start() override;
         void awake(){};
         void onCollission(GameObject* other) override;
+        void onCollisionExit(GameObject* other) override;
+        bool isOnFloor();
     private:
         float speed;
         bool enSuelo;

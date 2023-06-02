@@ -22,11 +22,21 @@ void CollissionManager::deregisterObject(GameObject* go){
 void CollissionManager::checkCollissions(){
     for(int i = 0; i < colliders.size(); i++){
         Collider* coll = colliders[i]->getComponent<Collider>();
-        for(int j = i+1; j < colliders.size(); j++){         
+        for(int j = i+1; j < colliders.size(); j++){       
             if(coll->isColliding(colliders[j])){
                 colliders[i]->onCollission(colliders[j]);
                 colliders[j]->onCollission(colliders[i]);
+                if(!wasColliding(i, j)){
+                    setWasColliding(i, j, true);
+                }
             }
+            else{
+                if(wasColliding(i, j)){
+                    setWasColliding(i, j, false);
+                    colliders[i]->onCollisionExit(colliders[j]);
+                    colliders[j]->onCollisionExit(colliders[i]);
+                }
+            }  
         }
     }
 }
@@ -50,4 +60,30 @@ void CollissionManager::clear(){
 
 void CollissionManager::reset(){
     colliders.clear();
+}
+
+bool CollissionManager::wasColliding(int i, int j){
+    for(Collission c : collissions){
+        if((c.i == i && c.j == j)){
+            return true;
+        }
+    }
+    return false;
+}
+void CollissionManager::setWasColliding(int i, int j, bool value){
+    Collission c;
+    c.i = i;
+    c.j = j;
+    if(value){
+        collissions.push_back(c);
+    }
+    else{
+        for(auto it = collissions.begin(); it != collissions.end();){
+            if(it->i == i && it->j == j){
+                it = collissions.erase(it);
+            }else{
+                ++it;
+            }
+        }
+    }
 }

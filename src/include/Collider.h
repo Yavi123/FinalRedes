@@ -52,6 +52,7 @@ class Collider:public Component
       SDL_Rect collider;
 
       bool isTrigger;
+      bool colliding;
 };
 
 #endif

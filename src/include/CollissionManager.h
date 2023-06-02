@@ -14,6 +14,8 @@ class CollissionManager{
         void registerObject(GameObject* go); 
         void deregisterObject(GameObject* go);
         void reset();
+        bool wasColliding(int i, int j);
+        void setWasColliding(int i, int j, bool value);
 
     private:
         inline CollissionManager() : colliders(){};
@@ -22,5 +24,10 @@ class CollissionManager{
         };
         std::vector<GameObject*> colliders;
         static CollissionManager* instance;
+        struct Collission{
+            int i;
+            int j;
+        };
+        std::vector<Collission> collissions;
 };
 #endif

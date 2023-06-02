@@ -6,7 +6,7 @@
 #include "src/include/CollissionManager.h"
 #include "src/include/SDL_Utils.h"
 
-Collider::Collider() : collider({0,0,1,1}), isTrigger(false) {};
+Collider::Collider() : collider({0,0,1,1}), isTrigger(false), colliding(false) {};
 
 Collider::~Collider(){
     CollissionManager::getInstance()->deregisterObject(gameObject);
@@ -25,17 +25,39 @@ void Collider::update(float dt){
 	collider.y = tr->getPosition().y;
 	collider.w = tr->getSize().x;
 	collider.h = tr->getSize().y;
+
+	SDL_Utils::Instance()->DrawRect(collider, { 0,0,255,255 });
 }
 
 void Collider::onCollission(GameObject* other){
     std::cout << "Colision\n";
 	if (isTrigger || other->getComponent<Collider>()->IsTrigger()) return;
+	if(gameObject->getTransform()->getVelocity().x == 0 && gameObject->getTransform()->getVelocity().y == 0) return;
 	//Ejecuta colision entre los dos gameobjects
-	Vector2 inv = gameObject->getComponent<Transform>()->getVelocity()/100;
-	float x = gameObject->getComponent<Transform>()->getPosition().x - inv.x;
-	float y = gameObject->getComponent<Transform>()->getPosition().y - inv.y;
-	gameObject->getComponent<Transform>()->setPosition(x, y);
-	gameObject->getComponent<Transform>()->setVelocity({ 0,0 });
+	Vector2 inv = gameObject->getComponent<Transform>()->getVelocity()/10000;
+	float posX = gameObject->getComponent<Transform>()->getPosition().x - other->getComponent<Transform>()->getPosition().x;
+	float posY = gameObject->getComponent<Transform>()->getPosition().y - other->getComponent<Transform>()->getPosition().y;
+	float x = gameObject->getComponent<Transform>()->getPosition().x;
+	float y = gameObject->getComponent<Transform>()->getPosition().y;
+	bool mod = false;
+	if(posX - gameObject->getTransform()->getSize().x < 0){
+		if(inv.x < 0 && posX > 0 || inv.x > 0 && posX < 0)
+		{
+			x -= inv.x;
+			mod = true;
+		}
+	}
+	if(posY - gameObject->getTransform()->getSize().y < 0){
+				if(inv.y < 0 && posY > 0 || inv.y > 0 && posY < 0)
+		{
+			y -= inv.y;
+			mod = true;
+		}
+	}
+	if(mod){
+		gameObject->getComponent<Transform>()->setPosition(x, y);
+		gameObject->getComponent<Transform>()->setVelocity({ 0,0 });
+	}
 }
 
 void Collider::start(){

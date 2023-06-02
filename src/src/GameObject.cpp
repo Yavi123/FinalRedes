@@ -32,3 +32,8 @@ void GameObject::onCollission(GameObject* other){
         c->onCollission(other);
     }
 }
+void GameObject::onCollisionExit(GameObject* other){
+    for(Component* c: currComponents){
+        c->onCollisionExit(other);
+    }
+}
