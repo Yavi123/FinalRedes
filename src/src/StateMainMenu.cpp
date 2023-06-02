@@ -28,16 +28,12 @@ void MainMenu::Init() {
 
     GameObject* obj = new GameObject();
     obj->getTransform()->setPosition(300, 250);
-    obj->getTransform()->setSize(200, 100);
+    obj->getTransform()->setSize(200, 200);
     obj->addComponent<Button>()->SetOnClick([this]() { stMachine->SetState<Playing>();});
     obj->addComponent<ImageRenderer>()->SetImage("Assets/play.png");
 	
 	AddGameObject(fondo);
 	AddGameObject(obj);
-}
-
-void MainMenu::ChangeState() {
-	stMachine->SetState<Playing>();
 }
 /*
 void MainMenu::Update(float deltaTime) {

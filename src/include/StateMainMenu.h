@@ -13,7 +13,6 @@ public:
     ~MainMenu();
 
     void Init() override;
-    void ChangeState();
 
 private:
 };
